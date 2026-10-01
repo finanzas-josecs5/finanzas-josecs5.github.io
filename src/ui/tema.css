@@ -326,7 +326,7 @@ code {
 
 .fila-campos {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: end;
 }
@@ -381,9 +381,24 @@ code {
 
 .totales {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
   margin: 0 0 1rem;
+}
+
+/* Móvil estrecho: una fila por total, con el importe a la derecha */
+@media (max-width: 479px) {
+  .totales {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .totales > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
 }
 
 .totales dt {
@@ -398,8 +413,14 @@ code {
 
 .filtros {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+.campo,
+.campo select,
+.campo input {
+  min-width: 0;
 }
 
 .vacio {
@@ -449,12 +470,6 @@ code {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-@media (max-width: 400px) {
-  .totales dd {
-    font-size: 0.875rem;
-  }
 }
 
 /* ---------- Acceso ---------- */
