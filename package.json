@@ -13,7 +13,8 @@
     "test": "vitest run --coverage",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit -p . && tsc --noEmit -p src",
-    "audit": "node scripts/auditar.mjs"
+    "audit": "node scripts/auditar.ts",
+    "check:dist": "node scripts/comprobar-dist.ts"
   },
   "dependencies": {
     "preact": "10.29.8"
