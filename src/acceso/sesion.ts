@@ -1,7 +1,6 @@
 import type { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'preact/hooks';
-import { supabase } from '../datos/cliente';
-import { navegar } from '../ui/router';
+import { CLAVE_SESION, supabase } from '../datos/cliente';
 
 export type EstadoSesion =
   | { tipo: 'cargando' }
@@ -27,8 +26,32 @@ export function debeCambiarContrasena(sesion: Session): boolean {
   return metadatos.debe_cambiar_contrasena === true;
 }
 
-export async function cerrarSesion(motivo?: 'inactividad'): Promise<void> {
-  // scope local: cierra esta sesión sin afectar a la del otro dispositivo
-  await supabase().auth.signOut({ scope: 'local' });
-  navegar(motivo ? `/entrar?motivo=${motivo}` : '/entrar', true);
+export type MotivoCierre = 'inactividad';
+
+// El motivo se pasa en memoria: la pantalla de Entrar lo lee una vez al aparecer.
+let motivoUltimoCierre: MotivoCierre | null = null;
+
+export function tomarMotivoCierre(): MotivoCierre | null {
+  const motivo = motivoUltimoCierre;
+  motivoUltimoCierre = null;
+  return motivo;
+}
+
+/**
+ * Cierra la sesión de este dispositivo (scope local: no afecta a la del otro).
+ * La app redirige sola a Entrar al recibir el evento de cierre.
+ */
+export async function cerrarSesion(motivo?: MotivoCierre): Promise<void> {
+  motivoUltimoCierre = motivo ?? null;
+  const { error } = await supabase().auth.signOut({ scope: 'local' });
+  if (error) {
+    // Sin conexión, supabase-js conserva la sesión: se borra igualmente en este
+    // navegador para que el cierre por inactividad (CA1.5) nunca se quede a medias.
+    try {
+      localStorage.removeItem(CLAVE_SESION);
+    } catch {
+      /* sin almacenamiento */
+    }
+    window.location.reload();
+  }
 }

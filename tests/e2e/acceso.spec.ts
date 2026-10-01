@@ -66,8 +66,9 @@ test('CA1.5: tras 30 minutos sin uso se cierra la sesión', async ({ page }) => 
   await expect(page).toHaveURL(/#\/resumen$/);
 
   await page.clock.fastForward('02:00');
-  await expect(page).toHaveURL(/#\/entrar\?motivo=inactividad$/);
+  await expect(page).toHaveURL(/#\/entrar$/);
   await expect(page.getByRole('status')).toHaveText('Se ha cerrado la sesión tras 30 minutos sin uso.');
+  expect(await page.evaluate(() => localStorage.getItem('finanzas-sesion'))).toBeNull();
 
   // La sesión ya no existe: volver atrás no da acceso
   await page.goto('/#/resumen');

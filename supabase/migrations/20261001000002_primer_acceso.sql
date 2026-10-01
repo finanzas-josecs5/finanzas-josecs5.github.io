@@ -10,13 +10,21 @@ language plpgsql
 set search_path = ''
 as $$
 begin
-  new.raw_user_meta_data := coalesce(new.raw_user_meta_data, '{}'::jsonb)
-    || jsonb_build_object('debe_cambiar_contrasena', true);
+  if tg_op = 'INSERT' then
+    new.raw_user_meta_data := coalesce(new.raw_user_meta_data, '{}'::jsonb)
+      || jsonb_build_object('debe_cambiar_contrasena', true);
+  elsif old.raw_user_meta_data ? 'debe_cambiar_contrasena'
+    and not (coalesce(new.raw_user_meta_data, '{}'::jsonb) ? 'debe_cambiar_contrasena') then
+    -- Auth reescribe los metadatos al completar el alta sin conocer la marca:
+    -- se conserva salvo que la actualización la fije de forma explícita.
+    new.raw_user_meta_data := coalesce(new.raw_user_meta_data, '{}'::jsonb)
+      || jsonb_build_object('debe_cambiar_contrasena', old.raw_user_meta_data -> 'debe_cambiar_contrasena');
+  end if;
   return new;
 end;
 $$;
 
 revoke all on function privado.marcar_primer_acceso() from public, anon, authenticated;
 
-create trigger marcar_primer_acceso before insert on auth.users
+create trigger marcar_primer_acceso before insert or update of raw_user_meta_data on auth.users
   for each row execute function privado.marcar_primer_acceso();

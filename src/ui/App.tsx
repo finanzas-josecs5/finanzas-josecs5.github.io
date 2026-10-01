@@ -36,7 +36,7 @@ export function App() {
 }
 
 function ConSesion() {
-  const { ruta, consulta } = useRuta();
+  const { ruta } = useRuta();
   const sesion = useSesion();
   const conectado = sesion.tipo === 'con-sesion';
   const cambiarPrimero = conectado && debeCambiarContrasena(sesion.sesion);
@@ -59,7 +59,7 @@ function ConSesion() {
   }, [conectado]);
 
   if (sesion.tipo === 'cargando' || destino) return <p class="cargando">Cargando…</p>;
-  if (sesion.tipo === 'sin-sesion') return <Entrar motivo={consulta.get('motivo')} />;
+  if (sesion.tipo === 'sin-sesion') return <Entrar />;
   if (ruta === '/cambiar-contrasena') return <CambiarContrasena obligatoria={cambiarPrimero} />;
 
   return (

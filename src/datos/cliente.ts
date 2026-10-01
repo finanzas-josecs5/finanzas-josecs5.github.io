@@ -7,6 +7,8 @@ const clave = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefine
 
 export const backendConfigurado = Boolean(url && clave);
 
+export const CLAVE_SESION = 'finanzas-sesion';
+
 let cliente: SupabaseClient | undefined;
 
 export function supabase(): SupabaseClient {
@@ -17,7 +19,7 @@ export function supabase(): SupabaseClient {
       autoRefreshToken: true,
       // La app no usa flujos con redirección (sin OAuth ni enlaces mágicos)
       detectSessionInUrl: false,
-      storageKey: 'finanzas-sesion',
+      storageKey: CLAVE_SESION,
     },
   });
   return cliente;

@@ -2,8 +2,10 @@ import { useState } from 'preact/hooks';
 import { supabase } from '../datos/cliente';
 import { navegar, RUTA_INICIO } from '../ui/router';
 import { mensajeErrorAuth } from './contrasena';
+import { tomarMotivoCierre } from './sesion';
 
-export function Entrar({ motivo }: { motivo: string | null }) {
+export function Entrar() {
+  const [motivo] = useState(tomarMotivoCierre);
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [error, setError] = useState('');
