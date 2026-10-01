@@ -9,6 +9,7 @@ import { Seguridad } from '../acceso/Seguridad';
 import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion';
 import { Ajustes } from '../ajustes/Ajustes';
 import { AjustesNomina } from '../ajustes/Nomina';
+import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
 import { LabOcr } from './LabOcr';
@@ -23,7 +24,7 @@ import { EditarRecurrente, ListaRecurrentes } from '../movimientos/Recurrentes';
 /** Páginas dentro del marco de la app (con navegación). Las fijas van antes que las de parámetros. */
 const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/resumen', () => <Resumen />],
-  ['/resumen/historico', () => <Pendiente titulo="Histórico" />],
+  ['/resumen/historico', () => <Historico />],
   ['/movimientos', () => <ListaMovimientos />],
   ['/movimientos/nuevo', () => <NuevoMovimiento />],
   ['/movimientos/:id', (p) => <DetalleMovimiento id={p.id ?? ''} />],

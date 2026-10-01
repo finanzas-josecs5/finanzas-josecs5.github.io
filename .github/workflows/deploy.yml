@@ -87,6 +87,14 @@ jobs:
           name: informe-playwright
           path: playwright-report
           retention-days: 7
+      # Capturas de los gráficos para revisarlos a ojo (solo datos de prueba)
+      - if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: capturas-e2e
+          path: capturas-e2e
+          retention-days: 3
+          if-no-files-found: ignore
 
   deploy:
     needs: [build, integracion]

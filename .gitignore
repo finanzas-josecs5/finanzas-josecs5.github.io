@@ -14,3 +14,4 @@ exportacion-*.json
 
 # Motor OCR copiado desde node_modules en cada build
 public/ocr/
+capturas-e2e/

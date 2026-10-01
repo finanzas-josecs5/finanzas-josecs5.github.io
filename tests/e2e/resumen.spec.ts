@@ -70,5 +70,26 @@ test('F3/F7: nómina de 14 pagas, recurrentes y resumen en caja real y prorratea
     await page.emulateMedia({ colorScheme: tema });
     expect(await erroresAxe(page)).toEqual([]);
   }
+
+  // Histórico: gráfico con leyenda, lectura del mes, foco por teclado y tabla equivalente (CA7.2, RWD7)
+  await page.getByRole('link', { name: 'Ver histórico' }).click();
+  await expect(page).toHaveURL(/#\/resumen\/historico$/);
+  const grafico = page.getByRole('group', { name: /Histórico/ });
+  await expect(grafico).toBeVisible();
+  await expect(grafico.getByRole('button')).toHaveCount(12);
+  await expect(page.getByTestId('lectura')).toContainText(`Entradas 2.000,00${NBSP}€`);
+  await expect(page.getByTestId('lectura')).toContainText(`Salidas 800,00${NBSP}€`);
+  const filas = page.getByRole('table').locator('tbody tr');
+  await expect(filas).toHaveCount(12);
+  await expect(filas.first()).toContainText(`+1.200,00${NBSP}€`);
+  await expect(page.getByRole('table').locator('tfoot')).toContainText('Media 3 meses');
+  await grafico.getByRole('button').first().focus();
+  await expect(page.getByTestId('lectura')).toContainText(`Entradas 0,00${NBSP}€`);
+  expect(await hayScrollHorizontal(page)).toBe(false);
+  for (const tema of ['light', 'dark'] as const) {
+    await page.emulateMedia({ colorScheme: tema });
+    expect(await erroresAxe(page)).toEqual([]);
+    await page.screenshot({ path: `capturas-e2e/historico-${test.info().project.name}-${tema}.png`, fullPage: true });
+  }
   await sinProblemas(page, problemas);
 });

@@ -73,6 +73,19 @@ export async function listarMovimientosDelMes(espacioId: string, mes: ClaveMes):
   return data;
 }
 
+/** Datos mínimos de los movimientos entre dos fechas (para el histórico). */
+export async function listarMovimientosEntre(espacioId: string, desde: string, hasta: string): Promise<Movimiento[]> {
+  const { data, error } = await supabase()
+    .from('movimientos')
+    .select(COLUMNAS)
+    .eq('espacio_id', espacioId)
+    .gte('fecha', desde)
+    .lte('fecha', hasta)
+    .order('fecha');
+  if (error) fallo('cargar el histórico');
+  return data;
+}
+
 export async function obtenerMovimiento(id: string): Promise<Movimiento | null> {
   const { data, error } = await supabase().from('movimientos').select(COLUMNAS).eq('id', id).maybeSingle();
   if (error) fallo('cargar el movimiento');
