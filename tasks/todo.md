@@ -37,8 +37,8 @@ Playwright con proyectos de 375×812, 768×1024 y 1280×800 sobre `vite preview`
 ### T4. Prueba de concepto del OCR  ·  M · **RIESGO ALTO**
 Tesseract.js con el worker, el core y `spa.traineddata` copiados a `public/ocr/` (`copiar-ocr.ts`), `workerBlobURL:false` y la política de Trusted Types `default`, que solo admite la URL del worker. Una página temporal `#/lab/ocr` que lee un ticket sintético.
 - [x] Con la CSP real (S12) se reconoce el texto de un ticket sintético, con 0 violaciones de CSP (e2e)
-- [ ] Medido en vuestros móviles: tamaño de la descarga y tiempo de la primera lectura y de las siguientes
-- [ ] Comprobado qué ocurre con una foto HEIC desde iPhone
+- [ ] ⏳ PENDIENTE (prueba del usuario): medido en vuestros móviles: tamaño de la descarga y tiempo de la primera lectura y de las siguientes
+- [ ] ⏳ PENDIENTE (prueba del usuario): comprobado qué ocurre con una foto HEIC desde iPhone
 - **Verificación:** e2e y prueba manual en los dos móviles
 - **Depende de:** T3
 - **Archivos:** `scripts/copiar-ocr.mjs`, `src/ocr/motor.ts`, `src/ocr/tt-policy.ts`, `tests/e2e/ocr.spec.ts`, `tests/fixtures/ticket-sintetico-1.png`
@@ -52,10 +52,10 @@ Tesseract.js con el worker, el core y `spa.traineddata` copiados a `public/ocr/`
 
 ## Fase 2: Datos y acceso
 
-### T5. Núcleo: dinero, formato y normalización  ·  S
+### T5. Núcleo: dinero, formato y normalización  ·  S  ✅
 Tipo `Centimos`, `formatearEUR` (`useGrouping:'always'`), `parsearImporte`, `normalizarComercio` y utilidades de fechas y meses.
-- [ ] Casos de CA4.2 y CA4.5, y formato `"1.234,56 €"` / `"-0,50 €"` con U+00A0
-- [ ] Cobertura ≥ 90 %
+- [x] Casos de CA4.2 y CA4.5, y formato `"1.234,56 €"` / `"-0,50 €"` con U+00A0
+- [x] Cobertura ≥ 90 %
 - **Verificación:** `npm test -- nucleo`
 - **Depende de:** T1
 - **Archivos:** `src/nucleo/{dinero,formato,normalizar,fechas}.ts`, `tests/unit/nucleo.test.ts`

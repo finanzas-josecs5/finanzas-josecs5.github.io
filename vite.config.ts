@@ -27,7 +27,15 @@ export default defineConfig(({ mode }) => {
     build: { target: 'es2023', sourcemap: false },
     test: {
       include: ['tests/unit/**/*.test.ts'],
-      coverage: { provider: 'v8', include: ['src/**/*.ts', 'config/**/*.ts'], exclude: ['src/**/*.tsx'] },
+      coverage: {
+        provider: 'v8',
+        include: ['src/**/*.ts', 'config/**/*.ts'],
+        exclude: ['src/**/*.tsx', 'src/**/*.d.ts'],
+        // SPEC §11: ≥ 90 % en los módulos de cálculo (se amplía con cada módulo)
+        thresholds: {
+          'src/nucleo/**': { lines: 90, branches: 90, functions: 90, statements: 90 },
+        },
+      },
     },
   };
 });
