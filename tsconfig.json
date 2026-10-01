@@ -30,6 +30,7 @@
     "scripts",
     "config",
     "vite.config.ts",
-    "eslint.config.js"
+    "eslint.config.js",
+    "playwright.config.ts"
   ]
 }

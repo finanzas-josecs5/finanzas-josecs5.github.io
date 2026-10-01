@@ -14,13 +14,16 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit -p . && tsc --noEmit -p src",
     "audit": "node scripts/auditar.ts",
-    "check:dist": "node scripts/comprobar-dist.ts"
+    "check:dist": "node scripts/comprobar-dist.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "preact": "10.29.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@types/node": "24.13.6",
     "@vitest/coverage-v8": "5.0.1",
     "eslint": "10.11.0",

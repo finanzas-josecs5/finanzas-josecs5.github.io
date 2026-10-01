@@ -25,11 +25,11 @@ Workflow con los jobs `check` (audit, lint, typecheck, test), `build` y `deploy`
 - **Depende de:** T1 y las **acciones manuales** (organización, repo, Pages, ajustes de seguridad del repo, §11 de la spec)
 - **Archivos:** `.github/workflows/deploy.yml`, `.github/dependabot.yml`, `scripts/comprobar-dist.mjs`
 
-### T3. Base de e2e: CSP, axe y antiframe  ·  M
+### T3. Base de e2e: CSP, axe y antiframe  ·  M  ✅
 Playwright con proyectos de 375×812, 768×1024 y 1280×800 sobre `vite preview`. Un helper que falla ante cualquier violación de CSP o error de consola. axe en tema claro y oscuro. Antiframe (S15). Comprobación de RWD1.
-- [ ] El e2e falla si se inyecta un script inline a propósito
-- [ ] La página dentro de un iframe queda oculta, y fuera de él se ve
-- [ ] axe sin violaciones, y sin scroll horizontal en las tres anchuras
+- [x] El e2e falla si se inyecta un script inline a propósito
+- [x] La página dentro de un iframe queda oculta, y fuera de él se ve
+- [x] axe sin violaciones, y sin scroll horizontal en las tres anchuras
 - **Verificación:** `npm run test:e2e` en local y en CI
 - **Depende de:** T2
 - **Archivos:** `playwright.config.ts`, `tests/e2e/base.spec.ts`, `tests/e2e/ayudas.ts`, `src/antiframe.ts`, `src/ui/tema.css`

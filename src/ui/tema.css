@@ -32,6 +32,11 @@
   box-sizing: border-box;
 }
 
+/* Antiframe (SPEC S15): oculto hasta comprobar que no está dentro de un iframe */
+html:not(.sin-marco) {
+  display: none;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
