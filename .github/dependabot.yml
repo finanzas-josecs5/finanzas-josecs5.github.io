@@ -11,6 +11,9 @@ updates:
       # typescript-eslint aún no admite TypeScript 7 (peer: typescript <6.1). Revisar cuando lo haga.
       - dependency-name: typescript
         update-types: [version-update:semver-major]
+      # Los tipos de Node deben coincidir con el runtime (.nvmrc = 24)
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly, day: monday }
