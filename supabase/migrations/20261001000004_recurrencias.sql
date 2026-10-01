@@ -41,9 +41,10 @@ alter table public.movimientos
   add constraint movimientos_ocurrencia_con_recurrencia
     check (recurrencia_id is null or ocurrencia is not null);
 
--- Cada ocurrencia se confirma una sola vez
+-- Cada ocurrencia se confirma una sola vez. Incluye espacio_id para que un usuario de otro
+-- espacio reciba «no existe» (FK) y no «ya existe», que le revelaría datos ajenos.
 create unique index movimientos_una_vez_por_ocurrencia
-  on public.movimientos (recurrencia_id, ocurrencia) where recurrencia_id is not null;
+  on public.movimientos (espacio_id, recurrencia_id, ocurrencia) where recurrencia_id is not null;
 
 ----------------------------------------------------------------------------
 -- Índices de claves foráneas (aviso de rendimiento de Supabase)
