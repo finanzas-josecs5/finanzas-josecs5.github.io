@@ -17,7 +17,11 @@ function esJwtDeServicio(payloadBase64: string): boolean {
 
 export function analizar(nombre: string, contenido: string): string[] {
   const problemas: string[] = [];
-  if (contenido.includes('sb_secret_')) problemas.push(`${nombre}: contiene una secret key de Supabase (sb_secret_)`);
+  // Una clave real lleva el prefijo seguido de su valor; supabase-js contiene el prefijo
+  // suelto en su propio código (para rechazar claves secretas en el navegador).
+  if (/sb_secret_[\w-]{16,}/.test(contenido)) {
+    problemas.push(`${nombre}: contiene una secret key de Supabase (sb_secret_…)`);
+  }
   if (/service_role/.test(contenido)) problemas.push(`${nombre}: menciona service_role`);
   for (const m of contenido.matchAll(JWT)) {
     if (m[1] && esJwtDeServicio(m[1])) problemas.push(`${nombre}: contiene un JWT con rol service_role`);

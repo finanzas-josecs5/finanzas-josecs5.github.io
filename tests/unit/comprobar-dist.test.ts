@@ -12,7 +12,12 @@ describe('comprobar-dist', () => {
   });
 
   it('detecta una secret key de Supabase', () => {
-    expect(analizar('assets/a.js', 'const k="sb_secret_abc123"')).toHaveLength(1);
+    expect(analizar('assets/a.js', 'const k="sb_secret_N7xQ2mVb9KpL4tRw8ZcY1dHf"')).toHaveLength(1);
+  });
+
+  it('no confunde el prefijo que usa supabase-js en su código con una clave', () => {
+    const codigoLibreria = 'wo=e=>e.startsWith(`sb_publishable_`)||e.startsWith(`sb_secret_`),To=`sb_temp_`';
+    expect(analizar('assets/a.js', codigoLibreria)).toEqual([]);
   });
 
   it('detecta un JWT con rol service_role y deja pasar uno anon', () => {
