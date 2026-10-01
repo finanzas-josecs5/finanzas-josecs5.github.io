@@ -112,10 +112,10 @@ Migración 002: `categorias`, `movimientos` y `comercios`, con claves foráneas 
 - **Depende de:** T7
 - **Archivos:** `supabase/migrations/002_movimientos.sql` (+ test), `src/datos/repos/movimientos.ts`, `src/movimientos/{Nuevo,Lista,Detalle}.tsx`, `src/movimientos/comercios.ts`
 
-### T10. Recurrencias  ·  S
+### T10. Recurrencias  ·  S  ✅ (migración 004 en producción)
 Migración 003: `recurrencias`. Generación de ocurrencias por mes, ajuste y confirmación de cada una, y página `#/recurrentes`.
-- [ ] CA4.4
-- [ ] pgTAP de la tabla `recurrencias`
+- [x] CA4.4
+- [x] pgTAP de la tabla `recurrencias`
 - **Verificación:** unitarios y e2e
 - **Depende de:** T9
 - **Archivos:** `supabase/migrations/003_recurrencias.sql` (+ test), `src/movimientos/recurrencias.ts`, `src/movimientos/Recurrentes.tsx`, `tests/unit/recurrencias.test.ts`
