@@ -60,7 +60,7 @@ Tipo `Centimos`, `formatearEUR` (`useGrouping:'always'`), `parsearImporte`, `nor
 - **Depende de:** T1
 - **Archivos:** `src/nucleo/{dinero,formato,normalizar,fechas}.ts`, `tests/unit/nucleo.test.ts`
 
-### T6. Base de datos: espacios, miembros y RLS  ·  M
+### T6. Base de datos: espacios, miembros y RLS  ·  M  ✅ (falta `db push` a producción cuando exista el proyecto)
 Supabase CLI (`supabase init`) y la migración 001:
 - `espacios` y `miembros`;
 - esquema `privado` con `es_miembro()`;
@@ -71,9 +71,9 @@ Supabase CLI (`supabase init`) y la migración 001:
 - columnas de auditoría `creado_por` y `actualizado_por` fijadas por trigger.
 
 Job `db-tests` en CI con `supabase start` y `supabase test db`.
-- [ ] pgTAP: CA2.2, CA2.4 y el usuario B no ve el espacio individual de A
-- [ ] pgTAP: `aal1` con factor verificado da 0 filas (parte de CA1.4)
-- [ ] El job `db-tests` está en verde en CI
+- [x] pgTAP: CA2.2, CA2.4 y el usuario B no ve el espacio individual de A
+- [x] pgTAP: `aal1` con factor verificado da 0 filas (parte de CA1.4)
+- [x] El job `db-tests` está en verde en CI
 - **Verificación:** job `db-tests` en CI (Supabase local efímero). Después, tú aplicas la migración a producción con `supabase db push`
 - **Depende de:** T2 (crear el proyecto de producción en Supabase solo hace falta para el `db push`)
 - **Archivos:** `supabase/config.toml`, `supabase/migrations/001_espacios.sql`, `supabase/tests/001_espacios.test.sql`, `.github/workflows/deploy.yml`
