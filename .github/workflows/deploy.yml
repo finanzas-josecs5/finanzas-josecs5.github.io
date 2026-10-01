@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Build de PRODUCCIÓN: es exactamente lo que se publica
   build:
     runs-on: ubuntu-24.04
     permissions:
@@ -37,21 +38,13 @@ jobs:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
       - run: node scripts/comprobar-dist.ts
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
-      - if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: informe-playwright
-          path: playwright-report
-          retention-days: 7
       - if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
-  # Tests de RLS (pgTAP) contra un Supabase local efímero: nunca contra producción
-  db:
+  # Integración: Supabase LOCAL y efímero (nunca producción) + RLS (pgTAP) + e2e
+  integracion:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -59,6 +52,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
       # CLI de Supabase descargada de su release oficial y verificada con un hash fijado
       # (supabase/setup-cli usa por dentro acciones de terceros no permitidas en este repo)
       - name: Instalar Supabase CLI 2.119.0
@@ -67,13 +64,32 @@ jobs:
           echo "9cd430f9ce2802192509f83ede5052bbcbc64607c1a626f38c66df16ddf7d5bd  supabase.deb" | sha256sum -c -
           sudo dpkg -i supabase.deb
           supabase --version
-      - name: Arrancar Supabase local (solo base de datos, Auth y API)
+      - name: Arrancar Supabase local (base de datos, Auth y API)
         run: supabase start -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - run: supabase test db
       - run: supabase db lint --level warning --fail-on warning
+      - name: Variables del Supabase local para el build de pruebas
+        run: |
+          supabase status -o env > "$RUNNER_TEMP/supabase.env"
+          set -a; . "$RUNNER_TEMP/supabase.env"; set +a
+          {
+            echo "VITE_SUPABASE_URL=$API_URL"
+            echo "VITE_SUPABASE_PUBLISHABLE_KEY=${PUBLISHABLE_KEY:-$ANON_KEY}"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+          } >> "$GITHUB_ENV"
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: informe-playwright
+          path: playwright-report
+          retention-days: 7
 
   deploy:
-    needs: [build, db]
+    needs: [build, integracion]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     permissions:

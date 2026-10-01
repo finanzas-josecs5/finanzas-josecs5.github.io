@@ -1,28 +1,42 @@
-/* Tokens de color: claro por defecto, oscuro según el sistema (SPEC §9) */
+/* Tokens de color: claro por defecto, oscuro según el sistema (SPEC §9).
+   Contrastes elegidos para WCAG 2.1 AA en ambos temas (los comprueba axe en los e2e). */
 :root {
   color-scheme: light dark;
   --fondo: #f6f7f9;
   --superficie: #ffffff;
+  --superficie-2: #eef0f4;
   --texto: #14171f;
   --texto-suave: #4a5163;
-  --borde: #d9dde5;
+  --borde: #c9ced8;
   --acento: #2f5bd3;
+  --acento-texto: #ffffff;
   --entrada: #11753f;
   --salida: #b3261e;
+  --aviso-fondo: #fff4d6;
+  --aviso-texto: #5c4200;
+  --foco: #2f5bd3;
   --radio: 12px;
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.08), 0 4px 16px rgb(0 0 0 / 0.06);
   --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --alto-barra: 4rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --fondo: #0f1115;
     --superficie: #181b22;
+    --superficie-2: #222631;
     --texto: #e9ebf0;
     --texto-suave: #a7adbb;
-    --borde: #2c313c;
+    --borde: #3a404d;
     --acento: #8aa8ff;
+    --acento-texto: #0f1115;
     --entrada: #5fd08f;
     --salida: #ff8a80;
+    --aviso-fondo: #3a2f0b;
+    --aviso-texto: #ffe08a;
+    --foco: #8aa8ff;
+    --sombra: none;
   }
 }
 
@@ -51,10 +65,298 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+h1 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--acento);
+}
+
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .contenedor {
   max-width: 75rem;
   margin: 0 auto;
   padding: 1rem;
+}
+
+.cargando {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.nota {
+  color: var(--texto-suave);
+  font-size: 0.9375rem;
+}
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.25rem;
+}
+
+.aviso {
+  background: var(--aviso-fondo);
+  color: var(--aviso-texto);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.error {
+  color: var(--salida);
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+p.error {
+  padding-left: 0;
+}
+
+/* ---------- Formularios ---------- */
+
+.campo {
+  display: grid;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.campo input,
+.campo select,
+.cabecera__espacio select {
+  font: inherit;
+  font-weight: 400;
+  color: var(--texto);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+}
+
+.boton {
+  font: inherit;
+  font-weight: 600;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+  cursor: pointer;
+}
+
+.boton--principal {
+  width: 100%;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--acento-texto);
+}
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.boton-icono {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto);
+  cursor: pointer;
+}
+
+.icono {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Acceso ---------- */
+
+.acceso {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.acceso__formulario {
+  width: min(100%, 26rem);
+}
+
+/* ---------- Marco de la app (móvil primero: < 768 px) ---------- */
+
+.marco {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+}
+
+.cabecera__titulo {
+  font-weight: 700;
+  margin-right: auto;
+}
+
+.cabecera__espacio select {
+  width: auto;
+  max-width: 10rem;
+}
+
+.contenido {
+  padding: 1rem;
+  padding-bottom: calc(var(--alto-barra) + 5rem);
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.navegacion {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 2;
+  background: var(--superficie);
+  border-top: 1px solid var(--borde);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.navegacion ul {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navegacion a {
+  display: grid;
+  justify-items: center;
+  gap: 0.125rem;
+  min-height: var(--alto-barra);
+  padding: 0.5rem 0.25rem;
+  color: var(--texto-suave);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.navegacion a[aria-current='page'] {
+  color: var(--acento);
+  font-weight: 700;
+}
+
+.boton-flotante {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(var(--alto-barra) + 1rem + env(safe-area-inset-bottom));
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: var(--acento);
+  color: var(--acento-texto);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+}
+
+/* ---------- Tablet (768–1279 px): barra lateral compacta ---------- */
+
+@media (min-width: 768px) {
+  .marco {
+    grid-template-columns: 6rem 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .cabecera {
+    grid-column: 1 / -1;
+  }
+
+  .navegacion {
+    position: sticky;
+    top: 3.75rem;
+    align-self: start;
+    height: calc(100dvh - 3.75rem);
+    border-top: 0;
+    border-right: 1px solid var(--borde);
+    padding: 0.5rem 0;
+  }
+
+  .navegacion ul {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .navegacion a {
+    min-height: 4rem;
+  }
+
+  .contenido {
+    padding: 1.5rem;
+  }
+
+  .boton-flotante {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+/* ---------- Escritorio (≥ 1280 px): barra lateral completa ---------- */
+
+@media (min-width: 1280px) {
+  .marco {
+    grid-template-columns: 15rem 1fr;
+  }
+
+  .navegacion a {
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

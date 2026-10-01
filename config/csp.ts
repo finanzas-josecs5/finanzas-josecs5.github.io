@@ -5,7 +5,19 @@
  */
 export function construirCsp(supabaseUrl?: string): string {
   const conexiones = ["'self'"];
-  if (supabaseUrl) conexiones.push(new URL(supabaseUrl).origin);
+  // Solo los builds de prueba contra un Supabase local (CI) usan http, y solo en loopback;
+  // en ellos no se fuerza HTTPS porque el Supabase local no lo tiene.
+  let soloPruebasLocales = false;
+  if (supabaseUrl) {
+    const destino = new URL(supabaseUrl);
+    if (destino.protocol === 'http:') {
+      if (!['127.0.0.1', 'localhost'].includes(destino.hostname)) {
+        throw new Error(`Supabase debe usar HTTPS: ${destino.origin}`);
+      }
+      soloPruebasLocales = true;
+    }
+    conexiones.push(destino.origin);
+  }
 
   const directivas: Record<string, string[]> = {
     'default-src': ["'none'"],
@@ -22,8 +34,8 @@ export function construirCsp(supabaseUrl?: string): string {
     'object-src': ["'none'"],
     'require-trusted-types-for': ["'script'"],
     'trusted-types': ['default'],
-    'upgrade-insecure-requests': [],
   };
+  if (!soloPruebasLocales) directivas['upgrade-insecure-requests'] = [];
 
   return Object.entries(directivas)
     .map(([nombre, valores]) => [nombre, ...valores].join(' '))
