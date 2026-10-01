@@ -16,6 +16,7 @@ import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
 import { DetalleMovimiento } from '../movimientos/Detalle';
 import { ListaMovimientos } from '../movimientos/Lista';
 import { NuevoMovimiento } from '../movimientos/Nuevo';
+import { EditarRecurrente, ListaRecurrentes } from '../movimientos/Recurrentes';
 
 /** Páginas dentro del marco de la app (con navegación). Las fijas van antes que las de parámetros. */
 const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
@@ -23,6 +24,9 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/movimientos', () => <ListaMovimientos />],
   ['/movimientos/nuevo', () => <NuevoMovimiento />],
   ['/movimientos/:id', (p) => <DetalleMovimiento id={p.id ?? ''} />],
+  ['/recurrentes', () => <ListaRecurrentes />],
+  ['/recurrentes/nuevo', () => <EditarRecurrente id={null} />],
+  ['/recurrentes/:id', (p) => <EditarRecurrente id={p.id ?? null} />],
   ['/comun', () => <Pendiente titulo="Común" />],
   ['/fondos', () => <Pendiente titulo="Fondos" />],
   ['/simulador', () => <Pendiente titulo="Simulador" />],

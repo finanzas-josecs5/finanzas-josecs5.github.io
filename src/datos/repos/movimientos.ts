@@ -26,6 +26,8 @@ export interface Movimiento {
   comercio: string | null;
   pagado_por: string;
   origen: 'manual' | 'ocr';
+  recurrencia_id: string | null;
+  ocurrencia: FechaISO | null;
   creado_por: string | null;
   actualizado_por: string | null;
 }
@@ -33,10 +35,15 @@ export interface Movimiento {
 export type DatosMovimiento = Pick<
   Movimiento,
   'espacio_id' | 'fecha' | 'importe' | 'sentido' | 'categoria_id' | 'naturaleza' | 'concepto' | 'comercio'
-> & { origen?: Movimiento['origen'] };
+> & {
+  origen?: Movimiento['origen'];
+  // Al confirmar una ocurrencia de un recurrente (SPEC CA4.4)
+  recurrencia_id?: string;
+  ocurrencia?: FechaISO;
+};
 
 const COLUMNAS =
-  'id, espacio_id, fecha, importe, sentido, categoria_id, naturaleza, concepto, comercio, pagado_por, origen, creado_por, actualizado_por';
+  'id, espacio_id, fecha, importe, sentido, categoria_id, naturaleza, concepto, comercio, pagado_por, origen, recurrencia_id, ocurrencia, creado_por, actualizado_por';
 
 function fallo(accion: string): never {
   throw new Error(`No se ha podido ${accion}. Comprueba la conexión e inténtalo de nuevo.`);

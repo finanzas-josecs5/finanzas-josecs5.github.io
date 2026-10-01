@@ -43,6 +43,13 @@ export function mesesCompletosAnteriores(referencia: FechaISO, n: number): Clave
   return Array.from({ length: n }, (_, i) => sumarMeses(actual, i - n));
 }
 
+/** Meses de diferencia entre dos claves de mes: («2026-01», «2026-04») → 3. */
+export function mesesEntre(desde: ClaveMes, hasta: ClaveMes): number {
+  const [a1 = 0, m1 = 1] = desde.split('-').map(Number);
+  const [a2 = 0, m2 = 1] = hasta.split('-').map(Number);
+  return (a2 - a1) * 12 + (m2 - m1);
+}
+
 export function diasEntre(desde: FechaISO, hasta: FechaISO): number {
   return Math.round((Date.parse(`${hasta}T00:00:00Z`) - Date.parse(`${desde}T00:00:00Z`)) / 86_400_000);
 }

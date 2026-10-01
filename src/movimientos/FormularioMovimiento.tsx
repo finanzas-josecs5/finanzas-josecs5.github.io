@@ -15,7 +15,7 @@ export interface ValoresIniciales {
 interface Props {
   espacioId: string;
   categorias: Categoria[];
-  inicial?: ValoresIniciales;
+  inicial?: ValoresIniciales | undefined;
   textoBoton: string;
   onGuardar: (datos: DatosMovimiento) => Promise<void>;
 }

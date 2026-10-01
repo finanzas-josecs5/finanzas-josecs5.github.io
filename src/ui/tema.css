@@ -356,7 +356,60 @@ code {
   border-top: 1px solid var(--borde);
 }
 
+.fila-campos--iguales {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* ---------- Lista de movimientos ---------- */
+
+.titulo-con-accion {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.titulo-con-accion a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pendientes {
+  margin-bottom: 1rem;
+  border-color: var(--acento);
+}
+
+.pendientes ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pendientes li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.pendientes li + li {
+  border-top: 1px solid var(--borde);
+}
+
+.pendientes__acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pendientes__acciones .boton {
+  flex: 1;
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+}
 
 .selector-mes {
   display: flex;

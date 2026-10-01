@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { listarMovimientosDelMes, type Movimiento } from '../datos/repos/movimientos';
+import { crearMovimiento, listarMovimientosDelMes, type Movimiento } from '../datos/repos/movimientos';
+import { listarRecurrencias, ocurrenciasConfirmadas } from '../datos/repos/recurrencias';
+import { pendientesDelMes, type Pendiente, type Recurrencia } from './recurrencias';
 import { useEspacios } from '../espacios/estado';
 import { centimos } from '../nucleo/dinero';
 import { claveMes, hoy, sumarMeses, type ClaveMes } from '../nucleo/fechas';
@@ -16,13 +18,39 @@ export function ListaMovimientos() {
   const [movimientos, setMovimientos] = useState<Movimiento[] | null>(null);
   const [error, setError] = useState('');
   const [filtro, setFiltro] = useState<Filtro>({ categoriaId: null, naturaleza: null });
+  const [pendientes, setPendientes] = useState<Pendiente<Recurrencia>[]>([]);
+  const [recargas, setRecargas] = useState(0);
 
   useEffect(() => {
     if (!actual) return;
     setMovimientos(null);
     setError('');
     listarMovimientosDelMes(actual.id, mes).then(setMovimientos, (e: Error) => setError(e.message));
-  }, [actual?.id, mes]);
+    Promise.all([listarRecurrencias(actual.id), ocurrenciasConfirmadas(actual.id, mes)]).then(
+      ([recurrencias, confirmadas]) => setPendientes(pendientesDelMes(recurrencias, mes, confirmadas)),
+      (e: Error) => setError(e.message),
+    );
+  }, [actual?.id, mes, recargas]);
+
+  async function confirmar({ recurrencia: r, ocurrencia }: Pendiente<Recurrencia>) {
+    try {
+      await crearMovimiento({
+        espacio_id: r.espacio_id,
+        fecha: ocurrencia,
+        importe: r.importe,
+        sentido: r.sentido,
+        categoria_id: r.categoria_id,
+        naturaleza: r.naturaleza,
+        comercio: r.comercio,
+        concepto: r.concepto,
+        recurrencia_id: r.id,
+        ocurrencia,
+      });
+      setRecargas((n) => n + 1);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se ha podido confirmar.');
+    }
+  }
 
   const nombreCategoria = useMemo(() => new Map((categorias ?? []).map((c) => [c.id, c.nombre])), [categorias]);
   const visibles = movimientos ? filtrar(movimientos, filtro) : [];
@@ -31,7 +59,10 @@ export function ListaMovimientos() {
 
   return (
     <section>
-      <h1>Movimientos</h1>
+      <div class="titulo-con-accion">
+        <h1>Movimientos</h1>
+        <a href="#/recurrentes">Recurrentes</a>
+      </div>
 
       <nav class="selector-mes" aria-label="Mes">
         <button class="boton-icono" type="button" aria-label="Mes anterior" onClick={() => setMes(sumarMeses(mes, -1))}>
@@ -48,6 +79,41 @@ export function ListaMovimientos() {
           ›
         </button>
       </nav>
+
+      {pendientes.length > 0 && (
+        <section class="pendientes tarjeta" aria-labelledby="titulo-pendientes">
+          <h2 id="titulo-pendientes">Pendientes de confirmar</h2>
+          <ul>
+            {pendientes.map((p) => {
+              const r = p.recurrencia;
+              const nombre = r.comercio ?? r.concepto ?? nombreCategoria.get(r.categoria_id) ?? 'Recurrente';
+              return (
+                <li key={`${r.id}-${p.ocurrencia}`}>
+                  <span class="movimiento__texto">
+                    <strong>{nombre}</strong>
+                    <span class="nota">{nombreDia(p.ocurrencia)}</span>
+                  </span>
+                  <span class={`importe importe--${r.sentido}`}>
+                    {formatearEURConSigno(importeConSigno(r))}
+                  </span>
+                  <span class="pendientes__acciones">
+                    <button class="boton" type="button" aria-label={`Confirmar ${nombre}`} onClick={() => void confirmar(p)}>
+                      Confirmar
+                    </button>
+                    <a
+                      class="boton"
+                      aria-label={`Ajustar ${nombre}`}
+                      href={`#/movimientos/nuevo?recurrencia=${r.id}&ocurrencia=${p.ocurrencia}`}
+                    >
+                      Ajustar
+                    </a>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <dl class="totales tarjeta">
         <div>
