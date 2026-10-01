@@ -1,0 +1,62 @@
+/* Tokens de color: claro por defecto, oscuro según el sistema (SPEC §9) */
+:root {
+  color-scheme: light dark;
+  --fondo: #f6f7f9;
+  --superficie: #ffffff;
+  --texto: #14171f;
+  --texto-suave: #4a5163;
+  --borde: #d9dde5;
+  --acento: #2f5bd3;
+  --entrada: #11753f;
+  --salida: #b3261e;
+  --radio: 12px;
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0f1115;
+    --superficie: #181b22;
+    --texto: #e9ebf0;
+    --texto-suave: #a7adbb;
+    --borde: #2c313c;
+    --acento: #8aa8ff;
+    --entrada: #5fd08f;
+    --salida: #ff8a80;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.contenedor {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
