@@ -120,10 +120,10 @@ Migración 003: `recurrencias`. Generación de ocurrencias por mes, ajuste y con
 - **Depende de:** T9
 - **Archivos:** `supabase/migrations/003_recurrencias.sql` (+ test), `src/movimientos/recurrencias.ts`, `src/movimientos/Recurrentes.tsx`, `tests/unit/recurrencias.test.ts`
 
-### T11. Nómina y resumen mensual  ·  M
+### T11. Nómina y resumen mensual  ·  M  ✅ (migración 005 en producción)
 Migración 004: `nomina` (por usuario) y `ajustes`. Página `#/ajustes/nomina`. `#/resumen` con entradas, salidas (fijas y variables, por categoría) y disponible, en vista de caja real o prorrateada.
-- [ ] CA3.1, CA3.2 y CA7.1
-- [ ] pgTAP: `nomina` y `ajustes` invisibles para el otro usuario
+- [x] CA3.1, CA3.2 y CA7.1
+- [x] pgTAP: `nomina` y `ajustes` invisibles para el otro usuario
 - **Verificación:** unitarios y e2e
 - **Depende de:** T9 y T10
 - **Archivos:** `supabase/migrations/004_nomina_ajustes.sql` (+ test), `src/movimientos/{nomina,resumen}.ts`, `src/ui/Resumen.tsx`, `src/ajustes/Nomina.tsx`
