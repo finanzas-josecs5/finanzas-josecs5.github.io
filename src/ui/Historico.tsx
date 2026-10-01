@@ -86,7 +86,7 @@ export function Historico() {
         />
       </div>
 
-      <div class="tabla-desplazable tarjeta">
+      <div class="tabla-desplazable tarjeta" role="region" aria-label="Tabla del histórico" tabIndex={0}>
         <table class="tabla">
           <caption class="solo-lectores">Entradas, salidas y balance por mes</caption>
           <thead>
