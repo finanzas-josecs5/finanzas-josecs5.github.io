@@ -59,9 +59,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
-        with:
-          version: 2.119.0
+      # CLI de Supabase descargada de su release oficial y verificada con un hash fijado
+      # (supabase/setup-cli usa por dentro acciones de terceros no permitidas en este repo)
+      - name: Instalar Supabase CLI 2.119.0
+        run: |
+          curl -fsSL -o supabase.deb https://github.com/supabase/cli/releases/download/v2.119.0/supabase_2.119.0_linux_amd64.deb
+          echo "9cd430f9ce2802192509f83ede5052bbcbc64607c1a626f38c66df16ddf7d5bd  supabase.deb" | sha256sum -c -
+          sudo dpkg -i supabase.deb
+          supabase --version
       - name: Arrancar Supabase local (solo base de datos, Auth y API)
         run: supabase start -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - run: supabase test db
