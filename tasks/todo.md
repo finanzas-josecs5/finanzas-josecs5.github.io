@@ -78,10 +78,10 @@ Job `db-tests` en CI con `supabase start` y `supabase test db`.
 - **Depende de:** T2 (crear el proyecto de producción en Supabase solo hace falta para el `db push`)
 - **Archivos:** `supabase/config.toml`, `supabase/migrations/001_espacios.sql`, `supabase/tests/001_espacios.test.sql`, `.github/workflows/deploy.yml`
 
-### T7. Login, rutas y layout  ·  M
+### T7. Login, rutas y layout  ·  M  ✅
 Cliente de Supabase con las variables de entorno, router basado en hash, `#/entrar` y `#/cambiar-contrasena` (obligatorio en el primer acceso, mediante `user_metadata.debe_cambiar` o el *flag* equivalente en `app_metadata`), layout responsive (barra inferior por debajo de 768 px y lateral por encima), selector de espacio (de momento solo «Yo») y cierre por inactividad.
-- [ ] CA1.1, CA1.3 y CA1.5 (e2e con reloj simulado)
-- [ ] La navegación cambia según la anchura (375, 768 y 1280)
+- [x] CA1.1, CA1.3 y CA1.5 (e2e con reloj simulado)
+- [x] La navegación cambia según la anchura (375, 768 y 1280)
 - **Verificación:** e2e en CI contra Supabase local, con usuarios de prueba creados en el propio job
 - **Depende de:** T5 y T6
 - **Archivos:** `src/datos/cliente.ts`, `src/ui/router.ts`, `src/acceso/{Entrar,CambiarContrasena,inactividad}.tsx`, `src/ui/Layout.tsx`, `tests/e2e/acceso.spec.ts`

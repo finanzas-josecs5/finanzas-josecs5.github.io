@@ -201,6 +201,57 @@ p.error {
   stroke-linejoin: round;
 }
 
+.boton-enlace {
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  color: var(--acento);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 1.125rem;
+  margin: 0 0 0.75rem;
+}
+
+.bloque {
+  margin-bottom: 1rem;
+}
+
+.bloque > :last-child {
+  margin-bottom: 0;
+}
+
+.qr {
+  display: block;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: #ffffff; /* el QR necesita fondo blanco también en tema oscuro */
+  border-radius: 8px;
+}
+
+code {
+  overflow-wrap: anywhere;
+}
+
+.lista-enlaces {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-enlaces a {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--texto);
+  text-decoration: none;
+}
+
 /* ---------- Acceso ---------- */
 
 .acceso {

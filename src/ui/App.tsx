@@ -1,22 +1,29 @@
+import type { ComponentChildren } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { CambiarContrasena } from '../acceso/CambiarContrasena';
 import { Entrar } from '../acceso/Entrar';
 import { MINUTOS_INACTIVIDAD_DEFECTO, vigilarInactividad } from '../acceso/inactividad';
+import { SegundoPaso } from '../acceso/SegundoPaso';
+import { necesitaSegundoFactor } from '../acceso/mfa';
+import { Seguridad } from '../acceso/Seguridad';
 import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion';
+import { Ajustes } from '../ajustes/Ajustes';
 import { backendConfigurado } from '../datos/cliente';
 import { LabOcr } from './LabOcr';
 import { Layout } from './Layout';
 import { Pendiente } from './Pendiente';
 import { navegar, RUTA_INICIO, useRuta } from './router';
 
-const PAGINAS: Record<string, string> = {
-  '/resumen': 'Resumen',
-  '/movimientos': 'Movimientos',
-  '/movimientos/nuevo': 'Añadir gasto',
-  '/comun': 'Común',
-  '/fondos': 'Fondos',
-  '/simulador': 'Simulador',
-  '/ajustes': 'Ajustes',
+/** Páginas dentro del marco de la app (con navegación). */
+const PAGINAS: Record<string, () => ComponentChildren> = {
+  '/resumen': () => <Pendiente titulo="Resumen" />,
+  '/movimientos': () => <Pendiente titulo="Movimientos" />,
+  '/movimientos/nuevo': () => <Pendiente titulo="Añadir gasto" />,
+  '/comun': () => <Pendiente titulo="Común" />,
+  '/fondos': () => <Pendiente titulo="Fondos" />,
+  '/simulador': () => <Pendiente titulo="Simulador" />,
+  '/ajustes': () => <Ajustes />,
+  '/ajustes/seguridad': () => <Seguridad />,
 };
 
 export function App() {
@@ -35,19 +42,22 @@ export function App() {
   return <ConSesion />;
 }
 
+/** Adónde debe ir el usuario según su sesión (SPEC CA1.1, CA1.3, CA1.4); null si puede quedarse. */
+function destinoObligado(ruta: string, sesion: ReturnType<typeof useSesion>): string | null {
+  if (sesion.tipo === 'cargando') return null;
+  if (sesion.tipo === 'sin-sesion') return ruta === '/entrar' ? null : '/entrar';
+  if (necesitaSegundoFactor(sesion.sesion)) return ruta === '/entrar/mfa' ? null : '/entrar/mfa';
+  if (debeCambiarContrasena(sesion.sesion)) return ruta === '/cambiar-contrasena' ? null : '/cambiar-contrasena';
+  if (ruta === '/cambiar-contrasena' || ruta in PAGINAS) return null;
+  return RUTA_INICIO;
+}
+
 function ConSesion() {
   const { ruta } = useRuta();
   const sesion = useSesion();
   const conectado = sesion.tipo === 'con-sesion';
-  const cambiarPrimero = conectado && debeCambiarContrasena(sesion.sesion);
+  const destino = destinoObligado(ruta, sesion);
 
-  // Redirecciones (SPEC CA1.1 y CA1.3)
-  let destino: string | null = null;
-  if (sesion.tipo === 'sin-sesion' && ruta !== '/entrar') destino = '/entrar';
-  if (conectado && cambiarPrimero && ruta !== '/cambiar-contrasena') destino = '/cambiar-contrasena';
-  if (conectado && !cambiarPrimero && (ruta === '/entrar' || !(ruta in PAGINAS || ruta === '/cambiar-contrasena'))) {
-    destino = RUTA_INICIO;
-  }
   useEffect(() => {
     if (destino) navegar(destino, true);
   }, [destino]);
@@ -60,11 +70,11 @@ function ConSesion() {
 
   if (sesion.tipo === 'cargando' || destino) return <p class="cargando">Cargando…</p>;
   if (sesion.tipo === 'sin-sesion') return <Entrar />;
-  if (ruta === '/cambiar-contrasena') return <CambiarContrasena obligatoria={cambiarPrimero} />;
+  if (ruta === '/entrar/mfa') return <SegundoPaso />;
+  if (ruta === '/cambiar-contrasena') {
+    return <CambiarContrasena obligatoria={debeCambiarContrasena(sesion.sesion)} />;
+  }
 
-  return (
-    <Layout ruta={ruta}>
-      <Pendiente titulo={PAGINAS[ruta] ?? 'Finanzas'} />
-    </Layout>
-  );
+  const pagina = PAGINAS[ruta];
+  return <Layout ruta={ruta}>{pagina ? pagina() : null}</Layout>;
 }
