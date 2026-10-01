@@ -97,6 +97,27 @@ describe('resumen del mes (CA7.1, CA3.2)', () => {
     expect(r).toMatchObject({ entradas: 0, salidas: 0, disponible: 0, salidasPorCategoria: [] });
   });
 
+  it('movimientos con una categoría desconocida y empates de importe', () => {
+    const r = resumenDelMes(
+      [mov(1000, 'salida', 'sup'), mov(1000, 'salida', 'viv'), mov(500, 'salida', 'borrada')],
+      CATEGORIAS,
+      { vista: 'caja', nomina: null },
+    );
+    expect(r.salidas).toBe(2500);
+    // La categoría borrada no aparece en el desglose; los empates se ordenan por nombre
+    expect(r.salidasPorCategoria.map((l) => l.nombre)).toEqual(['Supermercado', 'Vivienda']);
+    expect(r.entradasPorCategoria).toEqual([]);
+  });
+
+  it('prorrateada con 12 pagas: el mensual es el ordinario', () => {
+    const r = resumenDelMes([mov(250000, 'entrada', 'nom')], CATEGORIAS, {
+      vista: 'prorrateada',
+      nomina: { ...NOMINA_14, pagas: 12, neto_ordinario: c(250000) },
+    });
+    expect(r.entradas).toBe(250000);
+    expect(r.entradasPorCategoria[0]?.peso).toBe(1);
+  });
+
   it('reconoce la categoría «Nómina» aunque cambie mayúsculas o tildes', () => {
     expect(esCategoriaNomina({ nombre: 'NOMINA', sentido: 'entrada' })).toBe(true);
     expect(esCategoriaNomina({ nombre: 'Nómina', sentido: 'salida' })).toBe(false);
