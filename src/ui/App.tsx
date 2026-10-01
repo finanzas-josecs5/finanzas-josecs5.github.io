@@ -8,6 +8,8 @@ import { necesitaSegundoFactor } from '../acceso/mfa';
 import { Seguridad } from '../acceso/Seguridad';
 import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion';
 import { Ajustes } from '../ajustes/Ajustes';
+import { AjustesNomina } from '../ajustes/Nomina';
+import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
 import { LabOcr } from './LabOcr';
 import { Layout } from './Layout';
@@ -20,7 +22,8 @@ import { EditarRecurrente, ListaRecurrentes } from '../movimientos/Recurrentes';
 
 /** Páginas dentro del marco de la app (con navegación). Las fijas van antes que las de parámetros. */
 const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
-  ['/resumen', () => <Pendiente titulo="Resumen" />],
+  ['/resumen', () => <Resumen />],
+  ['/resumen/historico', () => <Pendiente titulo="Histórico" />],
   ['/movimientos', () => <ListaMovimientos />],
   ['/movimientos/nuevo', () => <NuevoMovimiento />],
   ['/movimientos/:id', (p) => <DetalleMovimiento id={p.id ?? ''} />],
@@ -32,6 +35,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/simulador', () => <Pendiente titulo="Simulador" />],
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
+  ['/ajustes/nomina', () => <AjustesNomina />],
 ];
 
 function resolverPagina(ruta: string): ComponentChildren | null {

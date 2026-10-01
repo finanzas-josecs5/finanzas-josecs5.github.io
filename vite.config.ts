@@ -35,6 +35,8 @@ export default defineConfig(({ mode }) => {
         thresholds: {
           'src/nucleo/**': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/recurrencias.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
+          'src/movimientos/nomina.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
+          'src/movimientos/resumen.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/calculos.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
         },
       },

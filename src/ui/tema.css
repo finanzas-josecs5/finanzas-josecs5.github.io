@@ -525,6 +525,165 @@ code {
   white-space: nowrap;
 }
 
+/* ---------- Resumen ---------- */
+
+.disponible__titulo {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.disponible__importe {
+  margin: 0.25rem 0 1rem;
+  font-size: 2.25rem;
+  line-height: 1.1;
+}
+
+.disponible .totales {
+  margin-bottom: 0;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.datos dt {
+  color: var(--texto-suave);
+  font-size: 0.875rem;
+}
+
+.datos dd {
+  margin: 0;
+}
+
+.desglose {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.desglose__fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.desglose .importe {
+  font-weight: 600;
+}
+
+/* Barras sin estilos en línea (CSP): anchos en pasos del 5 % */
+.barra {
+  display: block;
+  height: 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 999px;
+  background: var(--superficie-2);
+  overflow: hidden;
+}
+
+.barra__relleno {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.barra--salida .barra__relleno {
+  background: var(--salida);
+}
+
+.barra--entrada .barra__relleno {
+  background: var(--entrada);
+}
+
+.ancho-0 {
+  width: 0%;
+}
+
+.ancho-5 {
+  width: 5%;
+}
+
+.ancho-10 {
+  width: 10%;
+}
+
+.ancho-15 {
+  width: 15%;
+}
+
+.ancho-20 {
+  width: 20%;
+}
+
+.ancho-25 {
+  width: 25%;
+}
+
+.ancho-30 {
+  width: 30%;
+}
+
+.ancho-35 {
+  width: 35%;
+}
+
+.ancho-40 {
+  width: 40%;
+}
+
+.ancho-45 {
+  width: 45%;
+}
+
+.ancho-50 {
+  width: 50%;
+}
+
+.ancho-55 {
+  width: 55%;
+}
+
+.ancho-60 {
+  width: 60%;
+}
+
+.ancho-65 {
+  width: 65%;
+}
+
+.ancho-70 {
+  width: 70%;
+}
+
+.ancho-75 {
+  width: 75%;
+}
+
+.ancho-80 {
+  width: 80%;
+}
+
+.ancho-85 {
+  width: 85%;
+}
+
+.ancho-90 {
+  width: 90%;
+}
+
+.ancho-95 {
+  width: 95%;
+}
+
+.ancho-100 {
+  width: 100%;
+}
+
 /* ---------- Acceso ---------- */
 
 .acceso {
