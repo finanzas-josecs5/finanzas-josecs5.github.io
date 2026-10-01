@@ -36,7 +36,8 @@ export type ResultadoImporte =
  * - Solo punto: decimal con 1 o 2 cifras; con grupos de 3 («1.234», «1.234.567») son miles.
  */
 export function parsearImporte(texto: string): ResultadoImporte {
-  const limpio = texto.replace(/[\s €]/g, '');
+  // \s ya incluye el espacio de no separación (U+00A0) que usa el formato es-ES
+  const limpio = texto.replace(/[\s€]/g, '');
   if (limpio === '') return { ok: false, motivo: 'vacio' };
 
   const signo = limpio.startsWith('-') ? -1 : 1;

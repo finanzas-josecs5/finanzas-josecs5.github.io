@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit -p . && tsc --noEmit -p src",
     "audit": "node scripts/auditar.ts",
     "check:dist": "node scripts/comprobar-dist.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "verificar": "npm run lint && npm run typecheck && npm test"
   },
   "dependencies": {
     "preact": "10.29.8",

@@ -14,7 +14,7 @@ import {
 import { formatearEUR, formatearEURConSigno, formatearPorcentaje } from '../../src/nucleo/formato';
 import { normalizarComercio } from '../../src/nucleo/normalizar';
 
-const NBSP = ' ';
+const NBSP = String.fromCharCode(0xa0); // espacio de no separación
 
 describe('dinero', () => {
   it('opera con enteros y rechaza céntimos no enteros', () => {
