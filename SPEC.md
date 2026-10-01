@@ -472,7 +472,7 @@ Ninguna. Las tres anteriores están resueltas:
   - desmarcar «Allow GitHub Actions to create and approve pull requests»;
   - en la política de acciones permitidas, **exigir que estén fijadas por SHA completo** si la opción está disponible;
   - *Fork pull request workflows* = exigir aprobación.
-- [ ] Settings → **Rules → Ruleset** para `main`: bloquear *force push* y borrado, y exigir que pasen los checks del CI.
+- [x] Settings → **Rules → Ruleset** para `main`: bloquear *force push* y borrado. No se exigen checks previos porque son incompatibles con los commits directos a `main` (decisión del 2026-10-01): el CI impide **publicar** si algo falla.
 - [ ] Settings → **Code security**:
   - **Secret scanning** y **Push protection**;
   - **Dependabot alerts** y **Dependabot security updates**;

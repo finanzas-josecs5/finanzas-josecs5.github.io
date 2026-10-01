@@ -16,11 +16,11 @@ Vite + Preact + TS strict, ESLint (con `no-unsanitized`), Vitest, `.gitignore` y
 - **Depende de:** —
 - **Archivos:** `package.json`, `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, `index.html`, `src/main.tsx`, `src/ui/tema.css`
 
-### T2. CI/CD y primer despliegue  ·  M
+### T2. CI/CD y primer despliegue  ·  M  ✅
 Workflow con los jobs `check` (audit, lint, typecheck, test), `build` y `deploy` (S3, S4). Las acciones van fijadas por SHA. El script `comprobar-dist.mjs` cubre S5. `dependabot.yml`.
-- [ ] Un push a `main` publica la página en `https://finanzas-josecs5.github.io` por HTTPS
-- [ ] El workflow tiene `permissions: {}` y permisos mínimos por job, y todas las `uses:` van con SHA de 40 caracteres
-- [ ] `comprobar-dist` falla con un *fixture* que contiene `sb_secret_` o `<script>` inline
+- [x] Un push a `main` publica la página en `https://finanzas-josecs5.github.io` por HTTPS
+- [x] El workflow tiene `permissions: {}` y permisos mínimos por job, y todas las `uses:` van con SHA de 40 caracteres
+- [x] `comprobar-dist` falla con un *fixture* que contiene `sb_secret_` o `<script>` inline
 - **Verificación:** run verde en Actions y la URL cargando
 - **Depende de:** T1 y las **acciones manuales** (organización, repo, Pages, ajustes de seguridad del repo, §11 de la spec)
 - **Archivos:** `.github/workflows/deploy.yml`, `.github/dependabot.yml`, `scripts/comprobar-dist.mjs`
