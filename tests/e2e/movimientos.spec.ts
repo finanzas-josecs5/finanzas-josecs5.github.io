@@ -50,7 +50,8 @@ test('F4: alta rápida, categoría recordada por comercio, edición y borrado', 
 
   // Un ingreso fijo
   await page.getByRole('link', { name: 'Añadir gasto' }).click();
-  await page.getByLabel('Ingreso').check();
+  await page.locator('.segmentado label', { hasText: 'Ingreso' }).click();
+  await expect(page.getByRole('radio', { name: 'Ingreso' })).toBeChecked();
   await page.getByLabel('Importe (€)').fill('2500');
   await page.getByLabel('Concepto').fill('Nómina');
   await page.getByLabel('Categoría').selectOption({ label: 'Nómina' });

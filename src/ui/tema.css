@@ -300,10 +300,17 @@ code {
   outline: 2px solid var(--acento);
 }
 
+/* El radio sigue existiendo para teclado y lectores; la etiqueta es la que se ve y se pulsa */
 .segmentado input {
   position: absolute;
+  width: 1px;
+  height: 1px;
   opacity: 0;
-  pointer-events: none;
+  margin: 0;
+}
+
+.segmentado label {
+  position: relative;
 }
 
 .segmentado label:has(input:focus-visible) {
