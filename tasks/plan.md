@@ -41,6 +41,14 @@ T9…T19 ── T24 exportar/importar
 todo ── T25 pasada final responsive, a11y y documentación
 ```
 
+## Cómo llegan las migraciones a producción
+
+1. Cada migración pasa antes por CI: Supabase local, tests pgTAP y `supabase db lint`.
+2. Con el CI en verde, se aplica en producción con el conector de Supabase (`apply_migration`). La versión registrada se alinea con el nombre del archivo, para que la CLI pueda usarse más adelante sin conflictos.
+3. Después se revisan los avisos de seguridad y rendimiento de Supabase.
+
+Avisos aceptados (2026-10-01): «Leaked password protection» solo existe en el plan Pro.
+
 ## Fases y checkpoints
 
 | Fase | Tareas | Checkpoint |

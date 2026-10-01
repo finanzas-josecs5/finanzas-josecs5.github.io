@@ -103,11 +103,11 @@ En `#/ajustes/seguridad`: activar TOTP (QR y verificación) y desactivarlo. Paso
 
 ## Fase 3: Mis movimientos
 
-### T9. Gastos e ingresos a mano en «Yo»  ·  M
+### T9. Gastos e ingresos a mano en «Yo»  ·  M  ✅ (migración 003 en producción)
 Migración 002: `categorias`, `movimientos` y `comercios`, con claves foráneas compuestas, RLS y pgTAP, más la siembra de las categorías iniciales. Botón «+» → `#/movimientos/nuevo`, `#/movimientos` (lista filtrable) y `#/movimientos/:id`. La app propone la categoría según el comercio.
-- [ ] CA4.1 (≤ 4 toques) y CA4.3
-- [ ] pgTAP: el otro no puede leer ni escribir en mis movimientos, categorías o comercios
-- [ ] RWD8: `inputmode="decimal"` en el importe
+- [x] CA4.1 (≤ 4 toques) y CA4.3
+- [x] pgTAP: el otro no puede leer ni escribir en mis movimientos, categorías o comercios
+- [x] RWD8: `inputmode="decimal"` en el importe
 - **Verificación:** e2e y CI de base de datos
 - **Depende de:** T7
 - **Archivos:** `supabase/migrations/002_movimientos.sql` (+ test), `src/datos/repos/movimientos.ts`, `src/movimientos/{Nuevo,Lista,Detalle}.tsx`, `src/movimientos/comercios.ts`

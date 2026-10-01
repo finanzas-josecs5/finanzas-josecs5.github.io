@@ -77,7 +77,7 @@
 ### 3.3 Riesgos residuales (aceptados)
 
 1. **Supabase y tú como administrador podéis leer los datos.** No hay cifrado en el cliente, por decisión tomada.
-2. **No hay bloqueo de cuenta tras varios intentos fallidos** (es una función del plan Team). Se mitiga con los límites por IP, contraseñas fuertes y MFA.
+2. **No hay bloqueo de cuenta tras varios intentos fallidos** (es una función del plan Team). Tampoco se comprueba si una contraseña aparece en filtraciones conocidas (HaveIBeenPwned), porque eso solo existe en el plan Pro. Se mitiga con los límites por IP, contraseñas fuertes y MFA.
 3. **El cierre por inactividad solo existe en el cliente.** Un refresh token robado sigue siendo válido en el servidor hasta que se cierra la sesión.
 4. **Un frontend malicioso** (por una cuenta de GitHub o una dependencia comprometidas) podría leerlo todo. La CSP no impide exfiltrar datos navegando a otra página.
 5. **El token de sesión está en localStorage**, así que un XSS podría robarlo. Se reduce con la CSP y Trusted Types.
