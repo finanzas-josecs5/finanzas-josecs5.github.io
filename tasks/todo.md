@@ -60,7 +60,7 @@ Tipo `Centimos`, `formatearEUR` (`useGrouping:'always'`), `parsearImporte`, `nor
 - **Depende de:** T1
 - **Archivos:** `src/nucleo/{dinero,formato,normalizar,fechas}.ts`, `tests/unit/nucleo.test.ts`
 
-### T6. Base de datos: espacios, miembros y RLS  ·  M  ✅ (falta `db push` a producción cuando exista el proyecto)
+### T6. Base de datos: espacios, miembros y RLS  ·  M  ✅ (migraciones 001 y 002 aplicadas en producción el 2026-10-01; Security Advisor sin avisos)
 Supabase CLI (`supabase init`) y la migración 001:
 - `espacios` y `miembros`;
 - esquema `privado` con `es_miembro()`;
