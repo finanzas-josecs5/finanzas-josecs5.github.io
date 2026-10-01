@@ -35,8 +35,8 @@ Playwright con proyectos de 375×812, 768×1024 y 1280×800 sobre `vite preview`
 - **Archivos:** `playwright.config.ts`, `tests/e2e/base.spec.ts`, `tests/e2e/ayudas.ts`, `src/antiframe.ts`, `src/ui/tema.css`
 
 ### T4. Prueba de concepto del OCR  ·  M · **RIESGO ALTO**
-Tesseract.js con el worker, el core y `spa.traineddata` copiados a `public/ocr/` (`copiar-ocr.mjs`), `workerBlobURL:false` y la política de Trusted Types `ocr-worker`. Una página temporal `#/lab/ocr` que lee un ticket sintético.
-- [ ] Con la CSP real (S12) se reconoce el texto de un ticket sintético, con 0 violaciones de CSP (e2e)
+Tesseract.js con el worker, el core y `spa.traineddata` copiados a `public/ocr/` (`copiar-ocr.ts`), `workerBlobURL:false` y la política de Trusted Types `default`, que solo admite la URL del worker. Una página temporal `#/lab/ocr` que lee un ticket sintético.
+- [x] Con la CSP real (S12) se reconoce el texto de un ticket sintético, con 0 violaciones de CSP (e2e)
 - [ ] Medido en vuestros móviles: tamaño de la descarga y tiempo de la primera lectura y de las siguientes
 - [ ] Comprobado qué ocurre con una foto HEIC desde iPhone
 - **Verificación:** e2e y prueba manual en los dos móviles

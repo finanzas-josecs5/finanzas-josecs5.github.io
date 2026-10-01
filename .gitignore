@@ -11,3 +11,6 @@ supabase/.branches/
 # Exportaciones de datos: nunca al repo
 *.finanzas.json
 exportacion-*.json
+
+# Motor OCR copiado desde node_modules en cada build
+public/ocr/

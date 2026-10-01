@@ -7,8 +7,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "npm run typecheck && vite build",
+    "dev": "node scripts/copiar-ocr.ts && vite",
+    "build": "npm run typecheck && node scripts/copiar-ocr.ts && vite build",
     "preview": "vite preview",
     "test": "vitest run --coverage",
     "lint": "eslint . --max-warnings 0",
@@ -18,12 +18,14 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "preact": "10.29.8"
+    "preact": "10.29.8",
+    "tesseract.js": "7.0.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.63.0",
+    "@tesseract.js-data/spa": "1.0.0",
     "@types/node": "24.13.6",
     "@vitest/coverage-v8": "5.0.1",
     "eslint": "10.11.0",

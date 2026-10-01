@@ -374,10 +374,11 @@ Todos los consejos llevan este pie: «Orientativo. No es asesoramiento financier
   default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self';
   img-src 'self' blob:; font-src 'self'; manifest-src 'self'; worker-src 'self';
   connect-src 'self' https://<ref>.supabase.co; base-uri 'none'; form-action 'none';
-  object-src 'none'; require-trusted-types-for 'script'; trusted-types ocr-worker;
+  object-src 'none'; require-trusted-types-for 'script'; trusted-types default;
   upgrade-insecure-requests
   ```
   Sin CDN, sin analítica y sin terceros. Las fuentes y el motor del OCR se sirven desde el propio sitio.
+  La única política de Trusted Types se llama `default`, porque tesseract.js convierte la URL de su worker en una cadena antes de llamar a `new Worker`. **Solo** admite la URL exacta `/ocr/worker.min.js`; para cualquier otra URL devuelve `null` y el navegador la bloquea. No define `createHTML` ni `createScript`, así que esos sumideros siguen bloqueados (cambio aprobado en T4, el 2026-10-01).
 - **S13:** nunca se renderiza como HTML ni lo que introduce el usuario ni el texto del OCR (lint `no-unsanitized`, sin `dangerouslySetInnerHTML`).
 - **S14:** HTTPS: «Enforce HTTPS» en Pages, `upgrade-insecure-requests` y la precarga HSTS de `github.io` **[se verificará en hstspreload.org]**.
 - **S15:** como no se pueden configurar cabeceras en Pages, se pierden varias protecciones. Así se mitiga cada una:
@@ -607,3 +608,4 @@ Cada CA de §6 tiene su test. Cobertura ≥ 90 % en `nucleo`, `movimientos`, `co
 | 2026-10-01 | P1: los dos miembros pueden editar y borrar cualquier gasto compartido |
 | 2026-10-01 | P2: liquidez apuntada a mano, con recordatorio mensual |
 | 2026-10-01 | P3: reparto editable en cada gasto, con 50/50 por defecto |
+| 2026-10-01 | T4: la política de Trusted Types se llama `default` y solo admite `/ocr/worker.min.js` |

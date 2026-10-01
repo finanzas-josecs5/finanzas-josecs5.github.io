@@ -21,7 +21,7 @@ export function construirCsp(supabaseUrl?: string): string {
     'form-action': ["'none'"],
     'object-src': ["'none'"],
     'require-trusted-types-for': ["'script'"],
-    'trusted-types': ['ocr-worker'],
+    'trusted-types': ['default'],
     'upgrade-insecure-requests': [],
   };
 
