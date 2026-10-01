@@ -86,10 +86,10 @@ Cliente de Supabase con las variables de entorno, router basado en hash, `#/entr
 - **Depende de:** T5 y T6
 - **Archivos:** `src/datos/cliente.ts`, `src/ui/router.ts`, `src/acceso/{Entrar,CambiarContrasena,inactividad}.tsx`, `src/ui/Layout.tsx`, `tests/e2e/acceso.spec.ts`
 
-### T8. MFA TOTP opcional  ·  S
+### T8. MFA TOTP opcional  ·  S  ✅
 En `#/ajustes/seguridad`: activar TOTP (QR y verificación) y desactivarlo. Paso `#/entrar/mfa` cuando `nextLevel = aal2`.
-- [ ] CA1.4 de principio a fin (e2e con un secreto TOTP de prueba)
-- [ ] CA1.2: `signUp` da error (con el registro desactivado)
+- [x] CA1.4 de principio a fin (e2e con un secreto TOTP de prueba)
+- [x] CA1.2: `signUp` da error (con el registro desactivado)
 - **Verificación:** e2e y prueba manual con una app TOTP
 - **Depende de:** T7
 - **Archivos:** `src/acceso/{Mfa,Seguridad}.tsx`, `tests/e2e/mfa.spec.ts`
