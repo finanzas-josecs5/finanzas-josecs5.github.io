@@ -1,6 +1,7 @@
 import type { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'preact/hooks';
 import { CLAVE_SESION, supabase } from '../datos/cliente';
+import { olvidarEspacios } from '../espacios/estado';
 
 export type EstadoSesion =
   | { tipo: 'cargando' }
@@ -43,6 +44,7 @@ export function tomarMotivoCierre(): MotivoCierre | null {
  */
 export async function cerrarSesion(motivo?: MotivoCierre): Promise<void> {
   motivoUltimoCierre = motivo ?? null;
+  olvidarEspacios();
   const { error } = await supabase().auth.signOut({ scope: 'local' });
   if (error) {
     // Sin conexión, supabase-js conserva la sesión: se borra igualmente en este

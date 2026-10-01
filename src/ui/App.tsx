@@ -12,19 +12,31 @@ import { backendConfigurado } from '../datos/cliente';
 import { LabOcr } from './LabOcr';
 import { Layout } from './Layout';
 import { Pendiente } from './Pendiente';
-import { navegar, RUTA_INICIO, useRuta } from './router';
+import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
+import { DetalleMovimiento } from '../movimientos/Detalle';
+import { ListaMovimientos } from '../movimientos/Lista';
+import { NuevoMovimiento } from '../movimientos/Nuevo';
 
-/** Páginas dentro del marco de la app (con navegación). */
-const PAGINAS: Record<string, () => ComponentChildren> = {
-  '/resumen': () => <Pendiente titulo="Resumen" />,
-  '/movimientos': () => <Pendiente titulo="Movimientos" />,
-  '/movimientos/nuevo': () => <Pendiente titulo="Añadir gasto" />,
-  '/comun': () => <Pendiente titulo="Común" />,
-  '/fondos': () => <Pendiente titulo="Fondos" />,
-  '/simulador': () => <Pendiente titulo="Simulador" />,
-  '/ajustes': () => <Ajustes />,
-  '/ajustes/seguridad': () => <Seguridad />,
-};
+/** Páginas dentro del marco de la app (con navegación). Las fijas van antes que las de parámetros. */
+const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
+  ['/resumen', () => <Pendiente titulo="Resumen" />],
+  ['/movimientos', () => <ListaMovimientos />],
+  ['/movimientos/nuevo', () => <NuevoMovimiento />],
+  ['/movimientos/:id', (p) => <DetalleMovimiento id={p.id ?? ''} />],
+  ['/comun', () => <Pendiente titulo="Común" />],
+  ['/fondos', () => <Pendiente titulo="Fondos" />],
+  ['/simulador', () => <Pendiente titulo="Simulador" />],
+  ['/ajustes', () => <Ajustes />],
+  ['/ajustes/seguridad', () => <Seguridad />],
+];
+
+function resolverPagina(ruta: string): ComponentChildren | null {
+  for (const [patron, pagina] of PAGINAS) {
+    const params = coincide(patron, ruta);
+    if (params) return pagina(params);
+  }
+  return null;
+}
 
 export function App() {
   const { ruta } = useRuta();
@@ -48,7 +60,7 @@ function destinoObligado(ruta: string, sesion: ReturnType<typeof useSesion>): st
   if (sesion.tipo === 'sin-sesion') return ruta === '/entrar' ? null : '/entrar';
   if (necesitaSegundoFactor(sesion.sesion)) return ruta === '/entrar/mfa' ? null : '/entrar/mfa';
   if (debeCambiarContrasena(sesion.sesion)) return ruta === '/cambiar-contrasena' ? null : '/cambiar-contrasena';
-  if (ruta === '/cambiar-contrasena' || ruta in PAGINAS) return null;
+  if (ruta === '/cambiar-contrasena' || resolverPagina(ruta) !== null) return null;
   return RUTA_INICIO;
 }
 
@@ -75,6 +87,5 @@ function ConSesion() {
     return <CambiarContrasena obligatoria={debeCambiarContrasena(sesion.sesion)} />;
   }
 
-  const pagina = PAGINAS[ruta];
-  return <Layout ruta={ruta}>{pagina ? pagina() : null}</Layout>;
+  return <Layout ruta={ruta}>{resolverPagina(ruta)}</Layout>;
 }

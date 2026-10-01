@@ -25,6 +25,13 @@ export function aEuros(importe: Centimos): number {
   return importe / 100;
 }
 
+/** Para rellenar un campo editable: 123456 → «1234,56» (sin puntos de miles, que no estorben al editar). */
+export function textoEditable(importe: Centimos): string {
+  const signo = importe < 0 ? '-' : '';
+  const absoluto = Math.abs(importe);
+  return `${signo}${Math.floor(absoluto / 100)},${String(absoluto % 100).padStart(2, '0')}`;
+}
+
 export type ResultadoImporte =
   | { ok: true; importe: Centimos }
   | { ok: false; motivo: 'vacio' | 'invalido' | 'ambiguo' };

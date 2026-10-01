@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
         // SPEC §11: ≥ 90 % en los módulos de cálculo (se amplía con cada módulo)
         thresholds: {
           'src/nucleo/**': { lines: 90, branches: 90, functions: 90, statements: 90 },
+          'src/movimientos/calculos.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
         },
       },
     },
