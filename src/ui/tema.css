@@ -840,6 +840,8 @@ code {
 .marco {
   min-height: 100dvh;
   display: grid;
+  /* minmax(0, …): el contenido ancho (tablas, gráficos) se desplaza dentro de su caja, no estira la página */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr;
 }
 
@@ -925,7 +927,7 @@ code {
 
 @media (min-width: 768px) {
   .marco {
-    grid-template-columns: 6rem 1fr;
+    grid-template-columns: 6rem minmax(0, 1fr);
     grid-template-rows: auto 1fr;
   }
 
@@ -953,7 +955,7 @@ code {
   }
 
   .contenido {
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 6rem;
   }
 
   .boton-flotante {
@@ -966,7 +968,7 @@ code {
 
 @media (min-width: 1280px) {
   .marco {
-    grid-template-columns: 15rem 1fr;
+    grid-template-columns: 15rem minmax(0, 1fr);
   }
 
   .navegacion a {
