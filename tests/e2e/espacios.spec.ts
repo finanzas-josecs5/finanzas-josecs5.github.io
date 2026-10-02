@@ -43,7 +43,9 @@ test('F2/T13: crear «Pareja», añadir al otro por email y compartir gastos', a
   await expect(pareja.getByLabel('Email de la otra persona')).toHaveCount(0);
 
   // Selector completo: «Yo» primero y después los compartidos
-  const selector = page.getByLabel('Espacio', { exact: true });
+  // El nombre accesible del select incluye la opción elegida («Espacio Yo»), y aquí
+  // «Espacio» también aparece en «Nombre del espacio»: se busca por rol y prefijo
+  const selector = page.getByRole('combobox', { name: /^Espacio/ });
   await expect(selector.locator('option')).toHaveText(['Yo', 'Pareja']);
 
   expect(await hayScrollHorizontal(page)).toBe(false);
