@@ -382,6 +382,15 @@ code {
   }
 }
 
+.recordatorios {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.recordatorios a {
+  color: inherit;
+}
+
 .enlaces-titulo {
   display: flex;
   flex-wrap: wrap;

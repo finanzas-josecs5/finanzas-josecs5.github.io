@@ -10,6 +10,7 @@ import { resumenDelMes, type CategoriaBasica, type LineaCategoria, type Vista } 
 import type { MovimientoBasico } from '../movimientos/calculos';
 import { categoriaComun, misPartes } from '../comun/miParte';
 import { idUsuarioActual } from '../datos/repos/espacios';
+import { AvisosResumen } from '../cartera/AvisosResumen';
 import { centimos } from '../nucleo/dinero';
 import { claveMes, hoy, sumarMeses, type ClaveMes } from '../nucleo/fechas';
 import { formatearEUR, formatearEURConSigno, formatearPorcentaje } from '../nucleo/formato';
@@ -142,6 +143,8 @@ export function Resumen() {
           <a href="#/movimientos">Revisar</a>
         </p>
       )}
+
+      {esIndividual && <AvisosResumen />}
 
       {esIndividual && !nomina && (
         <p class="nota">

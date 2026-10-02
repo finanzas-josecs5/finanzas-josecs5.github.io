@@ -13,7 +13,7 @@ import {
   type Fondo,
   type ValoracionGuardada,
 } from '../datos/repos/cartera';
-import { centimos, parsearImporte } from '../nucleo/dinero';
+import { centimos, parsearImporte, textoEditable } from '../nucleo/dinero';
 import { esFechaISO, hoy } from '../nucleo/fechas';
 import { formatearEUR, formatearEURConSigno, formatearPorcentaje } from '../nucleo/formato';
 import { nombreDia } from '../nucleo/textos';
@@ -438,10 +438,40 @@ export function ValorarFondo({ id }: { id: string }) {
   const [valor, setValor] = useState('');
   const [fecha, setFecha] = useState<string>(hoy());
   const [errores, setErrores] = useState<string[]>([]);
+  const [lectura, setLectura] = useState('');
 
   useEffect(() => {
     obtenerFondo(id).then(setFondo, (e: Error) => setErrores([e.message]));
   }, [id]);
+
+  /** CA8.4: propone el valor leído de una captura del banco o bróker; siempre se revisa antes de guardar. */
+  async function leerCaptura(e: Event) {
+    const entrada = e.currentTarget as HTMLInputElement;
+    const archivo = entrada.files?.[0];
+    entrada.value = '';
+    if (!archivo) return;
+    setLectura('Leyendo la captura…');
+    try {
+      const [{ prepararImagen }, { reconocerTexto }, { extraerValor }] = await Promise.all([
+        import('../ocr/preprocesado'),
+        import('../ocr/motor'),
+        import('../ocr/extraerValor'),
+      ]);
+      const { valor: leido, confianza } = extraerValor(await reconocerTexto(await prepararImagen(archivo)));
+      if (leido === null) {
+        setLectura('No se ha encontrado ningún importe en la captura. Escríbelo a mano.');
+        return;
+      }
+      setValor(textoEditable(leido));
+      setLectura(
+        confianza === 'alta'
+          ? `Valor leído de la captura: ${formatearEUR(leido)}. Revísalo antes de guardar.`
+          : `⚠ No se ha encontrado una etiqueta clara; se propone el importe mayor (${formatearEUR(leido)}). Revísalo.`,
+      );
+    } catch (error) {
+      setLectura(error instanceof Error ? error.message : 'No se ha podido leer la captura.');
+    }
+  }
 
   async function enviar(e: Event) {
     e.preventDefault();
@@ -468,6 +498,15 @@ export function ValorarFondo({ id }: { id: string }) {
       </p>
       <h1>Actualizar valor</h1>
       <p class="nota">El valor total de tu posición en {fondo?.nombre ?? 'el fondo'}, tal como lo ves en tu banco o bróker.</p>
+      <label class="boton boton-archivo">
+        Leer de captura
+        <input type="file" accept="image/*" onChange={(e) => void leerCaptura(e)} />
+      </label>
+      {lectura && (
+        <p class="nota" role="status" data-testid="lectura-captura">
+          {lectura}
+        </p>
+      )}
       <form class="formulario" onSubmit={(e) => void enviar(e)} noValidate>
         <div class="fila-campos fila-campos--iguales">
           <label class="campo">

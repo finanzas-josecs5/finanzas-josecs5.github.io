@@ -9,6 +9,7 @@ import { Seguridad } from '../acceso/Seguridad';
 import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion';
 import { Ajustes } from '../ajustes/Ajustes';
 import { AjustesNomina } from '../ajustes/Nomina';
+import { AjustesLiquidez } from '../ajustes/Liquidez';
 import { AjustesEspacios } from '../espacios/Espacios';
 import { Comun } from '../comun/Comun';
 import { Saldar } from '../comun/Saldar';
@@ -47,6 +48,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
   ['/ajustes/nomina', () => <AjustesNomina />],
+  ['/ajustes/liquidez', () => <AjustesLiquidez />],
   ['/ajustes/espacios', () => <AjustesEspacios />],
 ];
 

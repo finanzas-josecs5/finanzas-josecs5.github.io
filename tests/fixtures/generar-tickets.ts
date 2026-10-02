@@ -53,5 +53,25 @@ for (const [nombre, lineas] of Object.entries(tickets)) {
   );
   await pagina.locator('#t').screenshot({ path: `tests/fixtures/${nombre}.png` });
 }
+
+// Captura SINTÉTICA de una app de bróker (CA8.4): letra sin serifa, como en un móvil
+const captura = [
+  'Fondo Indexado Ejemplo',
+  'ES0000000000',
+  '',
+  'Valor de la posición',
+  '12.345,67 €',
+  '',
+  'Importe invertido 10.000,00 €',
+  'Rentabilidad +2.345,67 €',
+  'Valor liquidativo 45,21 €',
+];
+await pagina.setContent(
+  `<body style="margin:0;background:#fff"><div id="t" style="font:20px/1.5 Arial,sans-serif;color:#111;padding:24px;width:380px">${captura
+    .map((l) => `<div>${l || '&nbsp;'}</div>`)
+    .join('')}</div></body>`,
+);
+await pagina.locator('#t').screenshot({ path: 'tests/fixtures/captura-broker-sintetica.png' });
+
 await navegador.close();
-console.log(`generar-tickets: ${Object.keys(tickets).length} tickets`);
+console.log(`generar-tickets: ${Object.keys(tickets).length} tickets y 1 captura`);
