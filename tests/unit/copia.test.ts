@@ -39,6 +39,12 @@ describe('copia de seguridad (CA12.1)', () => {
     await expect(descifrar({ ...archivo, cifrado: { ...archivo.cifrado, iteraciones: 1 } }, 'buena')).rejects.toThrow('parámetros');
   });
 
+  it('copias grandes (varios MB) sin desbordar la pila', async () => {
+    const grande = 'x'.repeat(3_000_000);
+    const archivo = await cifrar(grande, 'clave-larga-1', 100_000);
+    await expect(descifrar(archivo, 'clave-larga-1')).resolves.toHaveLength(3_000_000);
+  });
+
   it('cada cifrado usa salt e IV nuevos', async () => {
     const a = await cifrar('x', 'y', 100_000);
     const b = await cifrar('x', 'y', 100_000);

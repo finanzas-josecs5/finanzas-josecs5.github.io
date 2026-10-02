@@ -10,7 +10,12 @@ export interface Cifrado {
   datos: string;
 }
 
-const aBase64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes));
+/** Por bloques: con `fromCharCode(...bytes)` una copia grande desbordaría la pila */
+function aBase64(bytes: Uint8Array): string {
+  let binario = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) binario += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(binario);
+}
 const deBase64 = (texto: string) => Uint8Array.from(atob(texto), (c) => c.charCodeAt(0));
 /** WebCrypto (lib.dom de TS 6) exige un ArrayBuffer propio, no cualquier ArrayBufferLike */
 const buffer = (bytes: Uint8Array): ArrayBuffer => bytes.slice().buffer;
