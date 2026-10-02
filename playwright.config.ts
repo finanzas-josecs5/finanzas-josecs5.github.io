@@ -10,6 +10,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   // En CI comparten 2 núcleos con el OCR (WebAssembly) y el Supabase local: más margen por test
   timeout: process.env.CI ? 60_000 : 30_000,
+  expect: { timeout: process.env.CI ? 10_000 : 5_000 },
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: `http://localhost:${PUERTO}`,
