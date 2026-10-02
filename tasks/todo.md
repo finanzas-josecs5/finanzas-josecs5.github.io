@@ -143,10 +143,10 @@ Migración 004: `nomina` (por usuario) y `ajustes`. Página `#/ajustes/nomina`. 
 
 ## Fase 4: Lo común
 
-### T13. Espacios compartidos  ·  M
+### T13. Espacios compartidos  ·  M  ✅ (migración 006 en producción el 2026-10-02)
 RPC `privado.anadir_miembro(espacio, email)`. Página `#/ajustes/espacios` para crear «Pareja» y «Piso» y añadir al otro por email. Selector de espacio completo: Yo, Pareja y Piso.
-- [ ] CA2.3 y CA2.2 en los espacios compartidos
-- [ ] La lista y el alta funcionan dentro del espacio seleccionado
+- [x] CA2.3 y CA2.2 en los espacios compartidos
+- [x] La lista y el alta funcionan dentro del espacio seleccionado
 - **Verificación:** pgTAP y e2e con dos usuarios de prueba
 - **Depende de:** T9
 - **Archivos:** `supabase/migrations/005_compartidos.sql` (+ test), `src/espacios/{Selector,Espacios}.tsx`, `src/datos/repos/espacios.ts`
