@@ -9,6 +9,7 @@ import { Seguridad } from '../acceso/Seguridad';
 import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion';
 import { Ajustes } from '../ajustes/Ajustes';
 import { AjustesNomina } from '../ajustes/Nomina';
+import { AjustesEspacios } from '../espacios/Espacios';
 import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
@@ -37,6 +38,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
   ['/ajustes/nomina', () => <AjustesNomina />],
+  ['/ajustes/espacios', () => <AjustesEspacios />],
 ];
 
 function resolverPagina(ruta: string): ComponentChildren | null {

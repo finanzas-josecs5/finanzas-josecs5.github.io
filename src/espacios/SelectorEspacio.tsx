@@ -1,6 +1,6 @@
 import { elegirEspacio, useEspacios } from './estado';
 
-/** Selector Yo · Pareja · Piso (SPEC §5). Los espacios compartidos llegan en T13. */
+/** Selector Yo · Pareja · Piso (SPEC §5): «Yo» primero y después los compartidos por nombre. */
 export function SelectorEspacio() {
   const { espacios, actual } = useEspacios();
 

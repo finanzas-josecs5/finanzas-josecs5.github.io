@@ -257,6 +257,17 @@ code {
   text-decoration: none;
 }
 
+/* ---------- Espacios compartidos ---------- */
+
+.miembros {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.miembros li {
+  overflow-wrap: anywhere; /* emails largos sin scroll horizontal a 375 px */
+}
+
 /* ---------- Importes (SPEC §9: el color nunca va solo, siempre con signo) ---------- */
 
 .importe {
