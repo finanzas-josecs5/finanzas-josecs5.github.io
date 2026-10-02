@@ -81,5 +81,9 @@ test('F2/T13: crear «Pareja», añadir al otro por email y compartir gastos', a
     page.getByRole('region', { name: 'Pareja' }).getByRole('list', { name: 'Miembros' }).getByRole('listitem'),
   ).toHaveText([a.email, 'Tú']);
 
-  await sinProblemas(page, problemas);
+  // El email sin cuenta provoca un 404 esperado (PostgREST traduce P0002); cualquier otro problema falla
+  await sinProblemas(
+    page,
+    problemas.filter((p) => !/status of 404/.test(p)),
+  );
 });
