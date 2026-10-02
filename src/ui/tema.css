@@ -456,6 +456,9 @@ code {
 }
 
 .recordatorios a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem; /* RWD2: destino táctil de 44 px aunque el texto ocupe una línea */
   color: inherit;
 }
 

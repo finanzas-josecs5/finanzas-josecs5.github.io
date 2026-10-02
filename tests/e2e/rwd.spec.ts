@@ -49,3 +49,48 @@ test('RWD2: destinos táctiles de 44×44 px en todas las pantallas', async ({ pa
     expect.soft(await destinosPequenos(page), `destinos pequeños en ${ruta}`).toEqual([]);
   }
 });
+
+// RWD3: la navegación es visible en cada anchura, se recorre con el tabulador, el foco se ve
+// y Intro abre la sección
+test('RWD3: navegación visible y usable con teclado, con foco visible', async ({ page }) => {
+  await entrar(page, await crearUsuario());
+  const navegacion = page.getByRole('navigation', { name: 'Principal' });
+  await expect(navegacion).toBeVisible();
+
+  for (let i = 0; i < 30 && !(await navegacion.evaluate((nav) => nav.contains(document.activeElement))); i++) {
+    await page.keyboard.press('Tab');
+  }
+  // El primero es Resumen, la sección actual: se pasa al siguiente para que Intro cambie de pantalla
+  await page.keyboard.press('Tab');
+  const enlace = navegacion.locator('a:focus');
+  await expect(enlace).toHaveCount(1);
+  const contorno = await enlace.evaluate((a) => {
+    const estilo = getComputedStyle(a);
+    return { estilo: estilo.outlineStyle, ancho: parseFloat(estilo.outlineWidth) };
+  });
+  expect(contorno.estilo).not.toBe('none');
+  expect(contorno.ancho).toBeGreaterThanOrEqual(2);
+
+  const destino = await enlace.getAttribute('href');
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(new RegExp(`${destino}$`));
+});
+
+// RWD8: todos los campos de importe abren el teclado numérico con decimales
+test('RWD8: los campos de importe usan inputmode="decimal"', async ({ page }, info) => {
+  test.skip(info.project.name !== 'movil-375', 'Es un atributo: basta con una anchura');
+  test.setTimeout(120_000);
+  await entrar(page, await crearUsuario());
+  let revisados = 0;
+  for (const ruta of PAGINAS) {
+    await abrir(page, ruta);
+    const campos = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLInputElement>('input[type="text"], input[type="number"], input:not([type])')]
+        .filter((campo) => /€|importe/i.test([...(campo.labels ?? [])].map((l) => l.textContent ?? '').join(' ')))
+        .map((campo) => ({ etiqueta: (campo.labels?.[0]?.textContent ?? '').trim(), modo: campo.inputMode })),
+    );
+    revisados += campos.length;
+    for (const campo of campos) expect.soft(campo.modo, `${campo.etiqueta} en ${ruta}`).toBe('decimal');
+  }
+  expect(revisados).toBeGreaterThan(0);
+});

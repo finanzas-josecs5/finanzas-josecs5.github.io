@@ -80,6 +80,9 @@ export async function abrir(page: Page, ruta: string): Promise<void> {
   await page.goto(`/#${ruta}`);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.locator('.cargando')).toHaveCount(0);
+  // Los avisos del Resumen cargan aparte. Los usuarios de prueba no tienen liquidez apuntada:
+  // el aviso siempre aparece, y hay que esperarlo para medir o capturar la pantalla completa
+  if (ruta === '/resumen') await expect(page.getByRole('region', { name: 'Recordatorios' })).toBeVisible();
 }
 
 /**

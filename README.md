@@ -27,6 +27,8 @@ npm run test:e2e       # Playwright (375/768/1280) contra el build; los flujos c
 
 Los tests de base de datos (pgTAP) y los e2e con datos se ejecutan en GitHub Actions contra un **Supabase local efímero** (`supabase start`), nunca contra producción.
 
+Las capturas de referencia (`tests/e2e/visual.spec.ts-snapshots/`) se generan en ese runner de Linux. Si falta una, el test falla y la deja en el artefacto `capturas-e2e` (carpeta `referencias/`); para renovar una tras un cambio visual intencionado, se borra el PNG y se sube la nueva.
+
 ## Despliegue
 
 1. Cada push a `main` ejecuta el CI: auditoría, lint, tests, build, comprobación de `dist/`, pgTAP y e2e.
@@ -54,7 +56,13 @@ Los tests de base de datos (pgTAP) y los e2e con datos se ejecutan en GitHub Act
 | CA10.1–CA10.2 | Inflación del INE validada, con respaldo y aviso de desactualizada | `ipc.test.ts`, `inflacion.test.ts` |
 | CA11.1–CA11.2 | Cada regla se dispara según su umbral; explicación accesible | `consejos.test.ts`, `consejos.spec.ts` |
 | CA12.1 | Exportar cifrado, borrar e importar devuelve el mismo estado | `copia.test.ts`, `copia.spec.ts` |
-| RWD1–RWD8 | Sin scroll horizontal, destinos táctiles, axe AA, reflujo | todos los e2e (375/768/1280, dos temas), `rwd.spec.ts` |
+| RWD1, RWD4 | Sin scroll horizontal; axe AA en los dos temas | todos los e2e (375/768/1280) |
+| RWD2 | Destinos táctiles de 44×44 px a 375 y 768 en todas las pantallas | `rwd.spec.ts` |
+| RWD3 | Navegación visible y usable con teclado, foco visible | `rwd.spec.ts` |
+| RWD5 | Reflujo a 320 px; texto al 200 % sin recortes | `rwd.spec.ts` |
+| RWD6 | Capturas de referencia por pantalla y anchura (umbral: 1 % de píxeles) | `visual.spec.ts` |
+| RWD7 | Gráficos que se adaptan, siempre con su tabla | `resumen.spec.ts`, `simulador.spec.ts` |
+| RWD8 | Campos de importe con `inputmode="decimal"` | `rwd.spec.ts` |
 
 ## Fiscalidad
 
