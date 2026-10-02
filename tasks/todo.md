@@ -202,9 +202,9 @@ Migración 008 con RLS por usuario. Validación del ISIN, XIRR, `#/fondos`, `#/f
 - **Depende de:** T7
 - **Archivos:** `supabase/migrations/008_cartera.sql` (+ test), `src/cartera/{isin,xirr,cartera}.ts`, `src/cartera/{Fondos,Fondo,Valorar}.tsx`
 
-### T19. Recordatorios, captura y liquidez  ·  S
+### T19. Recordatorios, captura y liquidez  ·  S  ✅ (migración 010 en producción el 2026-10-02)
 Migración 009: `liquidez`. Página `#/ajustes/liquidez`. Recordatorios en el Resumen (fondos y liquidez de más de 30 días). Botón «Leer de captura», que reutiliza el motor OCR con un extractor de valor.
-- [ ] CA8.3, CA8.4 y CA8.5
+- [x] CA8.3, CA8.4 y CA8.5
 - **Verificación:** unitarios y e2e
 - **Depende de:** T18 y T17
 - **Archivos:** `supabase/migrations/009_liquidez.sql` (+ test), `src/cartera/recordatorios.ts`, `src/ocr/extraer-valor.ts`, `src/ajustes/Liquidez.tsx`
