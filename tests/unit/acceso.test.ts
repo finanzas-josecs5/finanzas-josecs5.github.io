@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mensajeErrorAuth, problemasContrasena } from '../../src/acceso/contrasena';
 import { RelojInactividad } from '../../src/acceso/inactividad';
+import { esConsultaSinSesion } from '../../src/datos/cliente';
 
 describe('RelojInactividad (CA1.5)', () => {
   const MIN = 60_000;
@@ -52,5 +53,20 @@ describe('mensajeErrorAuth', () => {
     ['algo raro', 'No se ha podido completar la operación. Inténtalo de nuevo.'],
   ])('«%s»', (original, traducido) => {
     expect(mensajeErrorAuth(original)).toBe(traducido);
+  });
+});
+
+describe('consultas sin sesión (al cerrarla con cargas a medias)', () => {
+  const API = 'http://127.0.0.1:54321';
+  const con = (token?: string) => (token === undefined ? {} : { headers: { Authorization: `Bearer ${token}` } });
+
+  it('bloquea las de datos con la clave pública o sin token', () => {
+    expect(esConsultaSinSesion(`${API}/rest/v1/movimientos?select=*`, con('pub'), 'pub')).toBe(true);
+    expect(esConsultaSinSesion(new URL(`${API}/rest/v1/rpc/x`), con(), 'pub')).toBe(true);
+  });
+
+  it('deja pasar las que llevan sesión y las de autenticación', () => {
+    expect(esConsultaSinSesion(new Request(`${API}/rest/v1/movimientos`), con('jwt-de-usuario'), 'pub')).toBe(false);
+    expect(esConsultaSinSesion(`${API}/auth/v1/token?grant_type=password`, con('pub'), 'pub')).toBe(false);
   });
 });

@@ -28,7 +28,7 @@ test('F11: consejos explicados y accesibles con teclado (CA11.2)', async ({ page
   await page.keyboard.press('Enter');
   await expect(consejo.locator('.consejo__detalle')).toBeVisible();
   await expect(consejo.locator('.consejo__detalle')).toContainText('TER de Fondo caro: 1,50 %');
-  await expect(consejo.locator('.consejo__detalle')).toContainText('Más de');
+  await expect(consejo.locator('.consejo__detalle')).toContainText('TER superior al 0,50 %');
   for (const tema of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: tema });
     expect(await erroresAxe(page)).toEqual([]);

@@ -9,6 +9,18 @@ export const backendConfigurado = Boolean(url && clave);
 
 export const CLAVE_SESION = 'finanzas-sesion';
 
+/**
+ * Una consulta a los datos (PostgREST) sin sesión: supabase-js manda la clave pública como
+ * token o ninguno. La app nunca consulta datos sin sesión; pasa al cerrarla con una carga a
+ * medias (tras un await), y la respuesta sería un 401 inútil.
+ */
+export function esConsultaSinSesion(entrada: RequestInfo | URL, init: RequestInit | undefined, clavePublica: string): boolean {
+  const ruta = typeof entrada === 'string' ? entrada : entrada instanceof URL ? entrada.href : entrada.url;
+  if (!new URL(ruta).pathname.startsWith('/rest/')) return false;
+  const token = new Headers(init?.headers).get('Authorization');
+  return token === null || token === `Bearer ${clavePublica}`;
+}
+
 let cliente: SupabaseClient | undefined;
 
 export function supabase(): SupabaseClient {
@@ -20,6 +32,12 @@ export function supabase(): SupabaseClient {
       // La app no usa flujos con redirección (sin OAuth ni enlaces mágicos)
       detectSessionInUrl: false,
       storageKey: CLAVE_SESION,
+    },
+    global: {
+      fetch: (entrada, init) =>
+        esConsultaSinSesion(entrada, init, clave)
+          ? Promise.reject(new DOMException('Sin sesión', 'AbortError'))
+          : fetch(entrada, init),
     },
   });
   return cliente;

@@ -57,9 +57,8 @@ test('T15: saldo, saldar y mi parte en el resumen de «Yo» (CA6.2, CA6.3)', asy
   await expect(page.getByTestId('disponible')).toHaveText(`−65,00${NBSP}€`);
   await expect(page.getByRole('region', { name: 'Salidas por categoría' })).toContainText('Común · Pareja');
 
-  // B ve lo que debe y salda. Antes de cerrar sesión se espera a que terminen las cargas del
-  // Resumen (consejos y avisos): si no, salen ya sin sesión y responden 401
-  await page.waitForLoadState('networkidle');
+  // B ve lo que debe y salda. Las cargas del Resumen que queden a medias al cerrar sesión
+  // no salen sin token (esConsultaSinSesion): sin 401 en la consola
   await page.getByRole('button', { name: 'Cerrar sesión' }).click();
   await entrar(page, b);
   await page.goto('/#/comun');
