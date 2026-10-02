@@ -182,10 +182,10 @@ Función `extraer(texto) → {importe, fecha, comercio, confianza}`.
 - **Depende de:** T5
 - **Archivos:** `src/ocr/extraer.ts`, `tests/unit/extraer.test.ts`, `tests/fixtures/ocr/*.txt`
 
-### T17. Flujo «Desde foto»  ·  M
+### T17. Flujo «Desde foto»  ·  M  ✅ (en producción; falta la prueba en vuestros móviles)
 `#/movimientos/foto`: varias imágenes → preprocesado → OCR → tarjetas editables (en ámbar si la confianza es baja) → «Guardar», «Guardar todos» o «Descartar». Los movimientos se guardan con `origen = 'ocr'`, se libera la memoria y se borra la página `#/lab/ocr` de T4.
-- [ ] CA5.5 y CA5.6 (inspección de la red en el e2e)
-- [ ] La propuesta de categoría por comercio también funciona aquí
+- [x] CA5.5 y CA5.6 (inspección de la red en el e2e)
+- [x] La propuesta de categoría por comercio también funciona aquí
 - **Verificación:** e2e con 3 tickets sintéticos y prueba en los dos móviles
 - **Depende de:** T4, T9 y T16
 - **Archivos:** `src/ocr/{preprocesado,cola}.ts`, `src/ocr/Foto.tsx`, `src/ocr/Tarjeta.tsx`, `tests/e2e/foto.spec.ts`
@@ -194,10 +194,10 @@ Función `extraer(texto) → {importe, fecha, comercio, confianza}`.
 
 ## Fase 6: Cartera
 
-### T18. Fondos, aportaciones y valoraciones  ·  M
+### T18. Fondos, aportaciones y valoraciones  ·  M  ✅ (migración 009 en producción el 2026-10-02)
 Migración 008 con RLS por usuario. Validación del ISIN, XIRR, `#/fondos`, `#/fondos/:id` (con gráfico de valor frente a aportado) y `#/fondos/:id/valorar`.
-- [ ] CA8.1 y CA8.2
-- [ ] pgTAP: la cartera es invisible para el otro usuario
+- [x] CA8.1 y CA8.2
+- [x] pgTAP: la cartera es invisible para el otro usuario
 - **Verificación:** unitarios, pgTAP y e2e
 - **Depende de:** T7
 - **Archivos:** `supabase/migrations/008_cartera.sql` (+ test), `src/cartera/{isin,xirr,cartera}.ts`, `src/cartera/{Fondos,Fondo,Valorar}.tsx`
