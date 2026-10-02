@@ -262,8 +262,8 @@ Página `#/ajustes/copia`: JSON de exportación (individual y espacios compartid
 
 ### T25. Pasada final: responsive, accesibilidad y documentación  ·  M
 Capturas de referencia por página y anchura (RWD6), zoom al 400 % y texto al 200 % (RWD5), y revisión de los destinos táctiles (RWD2). Además, `docs/seguridad.md` (amenazas y protecciones que no se pueden aplicar en Pages) y un README con la guía de uso y de despliegue.
-- [ ] RWD1–RWD8 en verde
-- [ ] Todos los CA de §6 de la spec tienen un test que pasa (tabla de trazabilidad en el README)
+- [x] RWD1–RWD8 en verde (`rwd.spec.ts`; capturas de referencia de 10 pantallas × 3 anchuras en `visual.spec.ts`)
+- [x] Todos los CA de §6 de la spec tienen un test que pasa (tabla de trazabilidad en el README)
 - [ ] La checklist §11 de la spec está completa, incluidos los puntos **[por verificar]**
 - **Verificación:** CI completo en verde y revisión contigo
 - **Depende de:** todas
