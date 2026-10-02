@@ -22,7 +22,8 @@ export const test = base.extend<{ problemas: string[] }>({
         });
       });
       page.on('console', (m) => {
-        if (m.type() === 'error') problemas.push(`consola: ${m.text()}`);
+        // Con la URL del recurso: «Failed to load resource» no dice qué petición falló
+        if (m.type() === 'error') problemas.push(`consola: ${m.text()} [${m.location().url.replace(/\?.*$/, '')}]`);
       });
       page.on('pageerror', (e) => problemas.push(`excepción: ${e.message}`));
       await usar(problemas);

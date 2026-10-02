@@ -5,6 +5,18 @@ import { consejos, type Consejo } from './reglas';
 
 const ETIQUETA = { importante: 'Importante', aviso: 'Aviso', info: 'Info' } as const;
 
+/**
+ * Los ids de los consejos llevan nombres («ter-alto:Fondo caro»). En aria-labelledby los
+ * espacios separan referencias, así que el id del título se limita a letras, números y guiones.
+ */
+export function idTitulo(idConsejo: string): string {
+  return `consejo-${idConsejo
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^A-Za-z0-9]+/g, '-')
+    .toLowerCase()}`;
+}
+
 export function useConsejos(): { lista: Consejo[] | null; error: string } {
   const { cargado, espacios } = useEspacios();
   const [lista, setLista] = useState<Consejo[] | null>(null);
@@ -27,9 +39,9 @@ export function useConsejos(): { lista: Consejo[] | null; error: string } {
 /** Un consejo con su explicación desplegable (SPEC CA11.2: accesible con teclado). */
 export function TarjetaConsejo({ consejo }: { consejo: Consejo }) {
   return (
-    <article class={`tarjeta consejo consejo--${consejo.severidad}`} aria-labelledby={`consejo-${consejo.id}`}>
+    <article class={`tarjeta consejo consejo--${consejo.severidad}`} aria-labelledby={idTitulo(consejo.id)}>
       <p class="consejo__etiqueta">{ETIQUETA[consejo.severidad]}</p>
-      <h3 id={`consejo-${consejo.id}`}>{consejo.titulo}</h3>
+      <h3 id={idTitulo(consejo.id)}>{consejo.titulo}</h3>
       <p>{consejo.texto}</p>
       <details>
         <summary>¿En qué se basa?</summary>

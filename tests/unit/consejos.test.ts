@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { idTitulo } from '../../src/consejos/Consejos';
 import { consejos, UMBRALES_DEFECTO, type DatosConsejos, type MesResumido } from '../../src/consejos/reglas';
 import { centimos } from '../../src/nucleo/dinero';
 import type { ClaveMes, FechaISO } from '../../src/nucleo/fechas';
@@ -21,6 +22,14 @@ const BASE: DatosConsejos = {
   saldos: [],
 };
 const ids = (d: Partial<DatosConsejos>) => consejos({ ...BASE, ...d }).map((x) => x.id);
+
+describe('id del título de un consejo', () => {
+  it('sin espacios ni signos, para que aria-labelledby funcione', () => {
+    expect(idTitulo('ter-alto:Fondo caro')).toBe('consejo-ter-alto-fondo-caro');
+    expect(idTitulo('categoria-sube:Restaurantes y ocio')).toBe('consejo-categoria-sube-restaurantes-y-ocio');
+    expect(idTitulo('saldo-pendiente:Piso nº 2')).toBe('consejo-saldo-pendiente-piso-n-2');
+  });
+});
 
 describe('consejos por reglas (CA11.1)', () => {
   it('sin nada destacable, ningún consejo', () => {
