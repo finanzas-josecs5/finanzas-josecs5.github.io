@@ -609,3 +609,4 @@ Cada CA de §6 tiene su test. Cobertura ≥ 90 % en `nucleo`, `movimientos`, `co
 | 2026-10-01 | P2: liquidez apuntada a mano, con recordatorio mensual |
 | 2026-10-01 | P3: reparto editable en cada gasto, con 50/50 por defecto |
 | 2026-10-01 | T4: la política de Trusted Types se llama `default` y solo admite `/ocr/worker.min.js` |
+| 2026-10-02 | T14: el reparto se guarda como porcentajes en `movimientos.reparto` (validado por trigger: solo miembros, suma 100, nunca en «Yo»; sin reparto se aplica el del espacio). Sustituye a la tabla `repartos` de §4: la API no permite insertar un movimiento y sus partes en la misma transacción. Las partes en céntimos se calculan en el cliente con la regla de §4.6 |

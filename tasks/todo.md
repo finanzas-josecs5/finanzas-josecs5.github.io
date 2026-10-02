@@ -151,9 +151,10 @@ RPC `privado.anadir_miembro(espacio, email)`. Página `#/ajustes/espacios` para 
 - **Depende de:** T9
 - **Archivos:** `supabase/migrations/005_compartidos.sql` (+ test), `src/espacios/{Selector,Espacios}.tsx`, `src/datos/repos/espacios.ts`
 
-### T14. Pagado por y reparto  ·  M
+### T14. Pagado por y reparto  ·  M  ✅ (migración 007 en producción el 2026-10-02)
 Migración 006: `repartos`, triggers de pertenencia y de suma (*deferred*), y auditoría en `movimientos`. En el alta dentro de un espacio compartido: «Pagado por» y reparto (el 50/50 del espacio, editable por gasto). El detalle muestra «Creado por» y «Modificado por».
-- [ ] CA6.1, CA6.5, CA6.6, CA6.7 y CA6.8
+> Implementado como migración 007: porcentajes en `movimientos.reparto` (jsonb) validados por trigger, en lugar de una tabla `repartos` (la API no permite insertar movimiento y partes en una transacción). Las partes en céntimos las calcula `src/comun/reparto.ts`.
+- [x] CA6.1, CA6.5, CA6.6, CA6.7 y CA6.8
 - **Verificación:** unitarios (`repartir`), pgTAP y e2e
 - **Depende de:** T13
 - **Archivos:** `supabase/migrations/006_repartos.sql` (+ test), `src/comun/reparto.ts`, `src/movimientos/Nuevo.tsx`, `tests/unit/reparto.test.ts`
