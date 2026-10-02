@@ -128,9 +128,9 @@ Migración 004: `nomina` (por usuario) y `ajustes`. Página `#/ajustes/nomina`. 
 - **Depende de:** T9 y T10
 - **Archivos:** `supabase/migrations/004_nomina_ajustes.sql` (+ test), `src/movimientos/{nomina,resumen}.ts`, `src/ui/Resumen.tsx`, `src/ajustes/Nomina.tsx`
 
-### T12. Histórico con gráfico  ·  S
+### T12. Histórico con gráfico  ·  S  ✅ (en producción; sin migración)
 `#/resumen/historico`: gráfico SVG de barras por mes con su tabla equivalente, y medias de 3 y 12 meses.
-- [ ] CA7.2 y RWD7 (el gráfico se adapta y tiene tabla)
+- [x] CA7.2 y RWD7 (el gráfico se adapta y tiene tabla)
 - **Verificación:** unitarios y e2e a 375 y 1280
 - **Depende de:** T11
 - **Archivos:** `src/ui/graficos/Barras.tsx`, `src/ui/Historico.tsx`, `tests/unit/medias.test.ts`
