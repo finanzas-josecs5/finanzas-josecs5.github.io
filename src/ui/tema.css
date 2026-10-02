@@ -939,6 +939,77 @@ code {
   fill: transparent;
 }
 
+/* Líneas (simulador): 2 px, banda del mismo tono muy suave, punto con anillo de la superficie */
+.grafico__linea {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.grafico__linea.serie-entradas,
+.grafico__punto.serie-entradas {
+  stroke: var(--serie-entradas);
+}
+
+.grafico__linea.serie-salidas,
+.grafico__punto.serie-salidas {
+  stroke: var(--serie-salidas);
+}
+
+.grafico__banda.serie-entradas {
+  fill: var(--serie-entradas);
+  opacity: 0.16;
+}
+
+.grafico__punto {
+  fill: var(--superficie);
+  stroke-width: 3;
+}
+
+.grafico__guia {
+  stroke: var(--borde);
+  stroke-width: 1;
+}
+
+/* Formulario del simulador */
+.rejilla-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
+@media (min-width: 1024px) {
+  .rejilla-campos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.inflacion {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.inflacion legend {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.inflacion .casilla {
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.inflacion .casilla input {
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+.tabla__titulo {
+  margin: 1rem 1rem 0.5rem;
+}
+
 .grafico__grupo {
   cursor: pointer;
   outline: none;

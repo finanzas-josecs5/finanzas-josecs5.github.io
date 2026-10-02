@@ -1,0 +1,12 @@
+{
+  "ejercicio": "2025 y siguientes",
+  "ambito": "Residentes en territorio común (no País Vasco ni Navarra)",
+  "fuente": "Ley 35/2006 del IRPF, arts. 66 y 76, con la modificación de la Ley 7/2024 [por verificar]: https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764",
+  "tramos": [
+    { "hasta": 6000, "tipo": 0.19 },
+    { "hasta": 50000, "tipo": 0.21 },
+    { "hasta": 200000, "tipo": 0.23 },
+    { "hasta": 300000, "tipo": 0.27 },
+    { "hasta": null, "tipo": 0.3 }
+  ]
+}

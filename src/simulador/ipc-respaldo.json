@@ -1,0 +1,8 @@
+{
+  "serie": "IPC290750",
+  "ultimo": { "periodo": "2026-09", "valor": 4.9, "tipo": "Avance" },
+  "media10": { "desde": 2016, "hasta": 2025, "valor": 2.5 },
+  "obtenido": "2026-10-01T00:00:00Z",
+  "fuente": "INE",
+  "respaldo": true
+}

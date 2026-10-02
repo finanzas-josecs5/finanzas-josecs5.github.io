@@ -7,8 +7,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "node scripts/copiar-ocr.ts && vite",
-    "build": "npm run typecheck && node scripts/copiar-ocr.ts && vite build",
+    "dev": "node scripts/copiar-ocr.ts && node scripts/obtener-ipc.ts && vite",
+    "build": "npm run typecheck && node scripts/copiar-ocr.ts && node scripts/obtener-ipc.ts && vite build",
     "preview": "vite preview",
     "test": "vitest run --coverage",
     "lint": "eslint . --max-warnings 0",

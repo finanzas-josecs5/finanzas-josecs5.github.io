@@ -17,9 +17,9 @@ import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
 import { DesdeFoto } from '../ocr/Foto';
+import { Simulador } from '../simulador/Simulador';
 import { DetalleFondo, EditarFondo, ListaFondos, ValorarFondo } from '../cartera/Fondos';
 import { Layout } from './Layout';
-import { Pendiente } from './Pendiente';
 import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
 import { DetalleMovimiento } from '../movimientos/Detalle';
 import { ListaMovimientos } from '../movimientos/Lista';
@@ -44,7 +44,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/fondos/:id', (p) => <DetalleFondo id={p.id ?? ''} />],
   ['/fondos/:id/editar', (p) => <EditarFondo id={p.id ?? null} />],
   ['/fondos/:id/valorar', (p) => <ValorarFondo id={p.id ?? ''} />],
-  ['/simulador', () => <Pendiente titulo="Simulador" />],
+  ['/simulador', () => <Simulador />],
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
   ['/ajustes/nomina', () => <AjustesNomina />],
