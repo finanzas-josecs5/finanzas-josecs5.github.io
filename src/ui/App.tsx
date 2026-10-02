@@ -16,6 +16,7 @@ import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
 import { DesdeFoto } from '../ocr/Foto';
+import { DetalleFondo, EditarFondo, ListaFondos, ValorarFondo } from '../cartera/Fondos';
 import { Layout } from './Layout';
 import { Pendiente } from './Pendiente';
 import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
@@ -37,7 +38,11 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/recurrentes/:id', (p) => <EditarRecurrente id={p.id ?? null} />],
   ['/comun', () => <Comun />],
   ['/comun/:espacio/saldar', (p) => <Saldar espacioId={p.espacio ?? ''} />],
-  ['/fondos', () => <Pendiente titulo="Fondos" />],
+  ['/fondos', () => <ListaFondos />],
+  ['/fondos/nuevo', () => <EditarFondo id={null} />],
+  ['/fondos/:id', (p) => <DetalleFondo id={p.id ?? ''} />],
+  ['/fondos/:id/editar', (p) => <EditarFondo id={p.id ?? null} />],
+  ['/fondos/:id/valorar', (p) => <ValorarFondo id={p.id ?? ''} />],
   ['/simulador', () => <Pendiente titulo="Simulador" />],
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],

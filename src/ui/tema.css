@@ -376,6 +376,12 @@ code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+@media (min-width: 480px) {
+  .datos--tres {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .enlaces-titulo {
   display: flex;
   flex-wrap: wrap;

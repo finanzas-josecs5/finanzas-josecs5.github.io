@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
           'src/nucleo/**': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/comun/**': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/ocr/extraer.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
+          'src/cartera/{cartera,isin,xirr}.ts': { lines: 90, branches: 85, functions: 90, statements: 90 },
           'src/movimientos/recurrencias.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/nomina.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/resumen.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
