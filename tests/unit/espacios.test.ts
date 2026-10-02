@@ -40,9 +40,9 @@ describe('problemasEmail', () => {
 
 describe('mensajeErrorEspacios (códigos de la migración 006)', () => {
   it.each([
-    ['P0002', 'No hay ninguna cuenta con ese email. Las cuentas las crea el administrador.'],
+    ['PT404', 'No hay ninguna cuenta con ese email. Las cuentas las crea el administrador.'],
     ['23505', 'Esa persona ya es miembro de este espacio.'],
-    ['54000', 'Este espacio ya tiene dos miembros.'],
+    ['PT409', 'Este espacio ya tiene dos miembros.'],
     ['22023', 'Tu espacio «Yo» no se puede compartir.'],
     ['42501', 'No tienes permiso para cambiar este espacio.'],
     ['23514', 'El nombre debe tener entre 1 y 60 caracteres.'],

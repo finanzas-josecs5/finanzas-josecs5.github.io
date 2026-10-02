@@ -23,11 +23,11 @@ export function problemasEmail(email: string): string[] {
 /** Traduce los códigos de error de crear_espacio_compartido y anadir_miembro. */
 export function mensajeErrorEspacios(codigo: string | undefined): string {
   switch (codigo) {
-    case 'P0002':
+    case 'PT404':
       return 'No hay ninguna cuenta con ese email. Las cuentas las crea el administrador.';
     case '23505':
       return 'Esa persona ya es miembro de este espacio.';
-    case '54000':
+    case 'PT409':
       return 'Este espacio ya tiene dos miembros.';
     case '22023':
       return 'Tu espacio «Yo» no se puede compartir.';

@@ -67,9 +67,9 @@ select results_eq(
 
 select throws_ok($$ select public.anadir_miembro((select pareja from ref), 'b@prueba.local') $$, '23505', null,
   'no se puede añadir dos veces a la misma persona');
-select throws_ok($$ select public.anadir_miembro((select pareja from ref), 'c@prueba.local') $$, '54000', null,
+select throws_ok($$ select public.anadir_miembro((select pareja from ref), 'c@prueba.local') $$, 'PT409', null,
   'un espacio compartido tiene como mucho dos miembros');
-select throws_ok($$ select public.anadir_miembro((select piso from ref), 'nadie@prueba.local') $$, 'P0002', null,
+select throws_ok($$ select public.anadir_miembro((select piso from ref), 'nadie@prueba.local') $$, 'PT404', null,
   'falla si no hay ninguna cuenta con ese email');
 select throws_ok($$ select public.anadir_miembro((select esp_a from ref), 'b@prueba.local') $$, '22023', null,
   'el espacio individual «Yo» no se puede compartir');

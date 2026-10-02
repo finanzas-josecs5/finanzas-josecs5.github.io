@@ -61,9 +61,11 @@ begin
     raise exception 'El espacio individual no se puede compartir' using errcode = '22023';
   end if;
 
+  -- Los códigos PTxyz fijan el estado HTTP en PostgREST (404 y 409): son errores del
+  -- cliente, y con P0002 o 54000 la API respondería 500
   select u.id into v_nuevo from auth.users u where lower(u.email) = lower(btrim(p_email));
   if v_nuevo is null then
-    raise exception 'No hay ninguna cuenta con ese email' using errcode = 'P0002';
+    raise exception 'No hay ninguna cuenta con ese email' using errcode = 'PT404';
   end if;
 
   if exists (select 1 from public.miembros m where m.espacio_id = p_espacio and m.user_id = v_nuevo) then
@@ -71,7 +73,7 @@ begin
   end if;
 
   if (select count(*) from public.miembros m where m.espacio_id = p_espacio) >= 2 then
-    raise exception 'El espacio ya tiene dos miembros' using errcode = '54000';
+    raise exception 'El espacio ya tiene dos miembros' using errcode = 'PT409';
   end if;
 
   -- Con dos miembros, el reparto por defecto es 50/50 (SPEC P3; se edita por gasto en T14)
