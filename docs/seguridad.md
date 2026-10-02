@@ -21,14 +21,14 @@ Resumen operativo de SPEC §3 (modelo de amenazas) y §8 (requisitos). Estado a 
 | Protección | Mitigación |
 |---|---|
 | `frame-ancestors` / `X-Frame-Options` | Antiframe: el CSS oculta la página si está dentro de un iframe (`src/antiframe.ts`) |
-| HSTS propio | «Enforce HTTPS» en Pages, `github.io` en la lista de precarga HSTS [verificar en hstspreload.org] y `upgrade-insecure-requests` |
+| HSTS propio | «Enforce HTTPS» en Pages (redirige HTTP a HTTPS), la cabecera `Strict-Transport-Security: max-age=31556952` que pone GitHub Pages (1 año, sin `includeSubDomains` ni `preload`) y `upgrade-insecure-requests`. `github.io` **no** está en la lista de precarga HSTS de Chromium (comprobado el 2026-10-02 en `transport_security_state_static.json` y en hstspreload.org): ver riesgo aceptado 10 |
 | `report-to` de CSP | Los e2e fallan ante cualquier violación de CSP |
 | `Permissions-Policy`, COOP | La app no usa APIs sensibles; enlaces externos con `rel="noopener noreferrer"` |
 
 ## Riesgos aceptados
 
 1. Supabase y el administrador pueden leer los datos (no hay cifrado en el cliente, por decisión).
-2. Sin bloqueo de cuenta por intentos fallidos ni comprobación de contraseñas filtradas (son de los planes Team y Pro).
+2. Sin bloqueo de cuenta por intentos fallidos ni comprobación de contraseñas filtradas (son de los planes Team y Pro). Por eso el Security Advisor muestra siempre el aviso `auth_leaked_password_protection`: es el único aviso aceptado.
 3. El cierre por inactividad es del cliente; un token robado vale hasta su caducidad (1 h) o el cierre de sesión.
 4. Un frontend malicioso (cuenta de GitHub o dependencia comprometidas) podría leerlo todo; la CSP no impide exfiltrar navegando.
 5. Token de sesión en `localStorage` (origen propio `finanzas-josecs5.github.io`, separado de otras webs).
@@ -36,9 +36,10 @@ Resumen operativo de SPEC §3 (modelo de amenazas) y §8 (requisitos). Estado a 
 7. En los espacios compartidos, cualquiera de los dos edita o borra cualquier gasto (se muestra quién creó y modificó; sin historial).
 8. El plan Free pausa el proyecto tras ~7 días sin uso y no tiene copias PITR: la copia de seguridad es la exportación.
 9. El workflow programado se desactiva tras 60 días sin actividad; la app avisa si la inflación tiene más de 45 días.
+10. Sin precarga HSTS, la **primera** visita escrita como `http://` o sin esquema en un navegador que nunca ha abierto la app podría interceptarse en una red hostil antes de la redirección a HTTPS. Desde la primera visita por HTTPS, el navegador recuerda HTTPS durante un año. Mitigación: abrir siempre la app desde un marcador o un acceso directo con `https://`.
 
 ## Rutina
 
-- Después de cada migración: Security Advisor de Supabase sin avisos nuevos.
+- Después de cada migración: Security Advisor de Supabase sin avisos nuevos (el de contraseñas filtradas es el único aceptado, ver riesgo 2).
 - Cada mes: exportar una copia cifrada y guardarla.
 - Revisar los PR de Dependabot (el CI completo se ejecuta en cada uno).

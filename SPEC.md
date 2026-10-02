@@ -459,41 +459,41 @@ Ninguna. Las tres anteriores están resueltas:
 
 ### GitHub: cuenta y organización
 
-- [ ] **2FA en tu cuenta de GitHub**, con passkey o llave física y una app TOTP de respaldo. Guarda los códigos de recuperación en tu gestor de contraseñas.
-- [ ] Crear la organización gratuita **`finanzas-josecs5`**.
-- [ ] Organización → Settings → Authentication security: **exigir 2FA a los miembros**.
+- [x] **2FA en tu cuenta de GitHub**, con passkey o llave física y una app TOTP de respaldo. Guarda los códigos de recuperación en tu gestor de contraseñas. *(verificado el 2026-10-02: la organización lo exige a sus miembros; la passkey y la app de respaldo son cosa tuya)*
+- [x] Crear la organización gratuita **`finanzas-josecs5`**.
+- [x] Organización → Settings → Authentication security: **exigir 2FA a los miembros**. *(verificado el 2026-10-02)*
 - [ ] Si vas a dar acceso al repo a tu pareja, debe tener 2FA. No hace falta: ella solo usa la web.
 
 ### GitHub: repositorio `finanzas-josecs5/finanzas-josecs5.github.io` (público)
 
-- [ ] Settings → **Pages**: Source = **GitHub Actions**, y marcar **Enforce HTTPS**.
-- [ ] Settings → **Environments** → `github-pages`: *Deployment branches* = solo `main`.
+- [x] Settings → **Pages**: Source = **GitHub Actions**, y marcar **Enforce HTTPS**. *(verificado el 2026-10-02)*
+- [x] Settings → **Environments** → `github-pages`: *Deployment branches* = solo `main`. *(verificado el 2026-10-02)*
 - [ ] Settings → **Actions → General**:
   - *Workflow permissions* = **Read repository contents**;
   - desmarcar «Allow GitHub Actions to create and approve pull requests»;
   - en la política de acciones permitidas, **exigir que estén fijadas por SHA completo** si la opción está disponible;
   - *Fork pull request workflows* = exigir aprobación.
 - [x] Settings → **Rules → Ruleset** para `main`: bloquear *force push* y borrado. No se exigen checks previos porque son incompatibles con los commits directos a `main` (decisión del 2026-10-01): el CI impide **publicar** si algo falla.
-- [ ] Settings → **Code security**:
+- [x] Settings → **Code security**: *(verificado el 2026-10-02: las cinco activas)*
   - **Secret scanning** y **Push protection**;
   - **Dependabot alerts** y **Dependabot security updates**;
   - **CodeQL** (configuración por defecto);
   - **Private vulnerability reporting**.
-- [ ] Settings → **Secrets and variables → Actions → Variables** (no Secrets): `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`.
-- [ ] Comprobar que **no existe ningún Secret** con la *secret key* de Supabase.
+- [x] Settings → **Secrets and variables → Actions → Variables** (no Secrets): `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`. *(verificado el 2026-10-02)*
+- [x] Comprobar que **no existe ningún Secret** con la *secret key* de Supabase. *(verificado el 2026-10-02: 0 secrets en el repo, en el entorno y heredados de la organización)*
 
 ### Supabase
 
 - [ ] **2FA en tu cuenta de Supabase** (Account → Security). Opcional pero recomendable: exigir MFA en la organización de Supabase.
-- [ ] Crear el proyecto en el **plan Free**, en una **región de la UE** (por ejemplo, Frankfurt). Guardar la contraseña de la base de datos en tu gestor.
-- [ ] Authentication → Sign In / Providers:
+- [x] Crear el proyecto en el **plan Free**, en una **región de la UE** (por ejemplo, Frankfurt). Guardar la contraseña de la base de datos en tu gestor. *(verificado el 2026-10-02: proyecto `finanzas` en `eu-west-1`, Irlanda)*
+- [ ] Authentication → Sign In / Providers *(2026-10-02: registro desactivado y solo email verificados por `/auth/v1/settings`; la política de contraseña no se puede leer desde fuera)*:
   - **desactivar «Allow new users to sign up»**;
   - Email activado, con contraseña de 12 caracteres como mínimo y con letras, números y símbolos.
 - [ ] Authentication → **Multi-Factor**: activar **TOTP** (inscripción y verificación).
 - [ ] Authentication → URL Configuration: *Site URL* = `https://finanzas-josecs5.github.io`, y *Redirect URLs* solo esa.
 - [ ] Authentication → Rate Limits: revisar que los límites de inicio de sesión y de verificación tienen valores bajos.
 - [ ] Authentication → Users: **crear tu usuario y el de tu pareja** con *Auto Confirm* y una contraseña temporal. Pasársela a tu pareja por un canal seguro, no por el mismo chat en el que se comparte el email.
-- [ ] Project Settings → API: copiar la **URL** y la **publishable key** a las variables de GitHub. **No copiar la secret key a ningún sitio.**
+- [x] Project Settings → API: copiar la **URL** y la **publishable key** a las variables de GitHub. **No copiar la secret key a ningún sitio.**
 - [ ] Después de cada migración: Advisors → **Security Advisor** sin avisos.
 - [ ] Cada mes: **exportar** los datos desde la app y guardar el archivo cifrado.
 
@@ -505,7 +505,7 @@ Ninguna. Las tres anteriores están resueltas:
 ### Al terminar
 
 - [ ] Probar el login, el TOTP y un gasto desde foto en vuestros dos móviles.
-- [ ] Verificar en hstspreload.org que `github.io` está precargado.
+- [x] Verificar en hstspreload.org que `github.io` está precargado. *(2026-10-02: **no lo está**, ni en hstspreload.org ni en la lista de Chromium; GitHub Pages sí envía HSTS de 1 año. Riesgo aceptado 10 de `docs/seguridad.md`)*
 - [ ] Verificar los puntos **[por verificar]** de §7.5 en el BOE y en la AEAT.
 
 ---
