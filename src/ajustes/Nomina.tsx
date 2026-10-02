@@ -8,6 +8,7 @@ import { esCategoriaNomina } from '../movimientos/resumen';
 import { CERO, parsearImporte, textoEditable } from '../nucleo/dinero';
 import { fechaISO, hoy, ultimoDiaDelMes, type ClaveMes } from '../nucleo/fechas';
 import { formatearEUR } from '../nucleo/formato';
+import { ListaErrores } from '../ui/ListaErrores';
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
@@ -172,13 +173,7 @@ export function AjustesNomina() {
             </div>
           </>
         )}
-        {errores.length > 0 && (
-          <ul class="error" role="alert">
-            {errores.map((e) => (
-              <li key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
+        <ListaErrores errores={errores} />
         {mensaje && (
           <p class="aviso" role="status">
             {mensaje}

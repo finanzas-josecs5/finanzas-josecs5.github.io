@@ -5,6 +5,7 @@ import type { Miembro } from '../datos/repos/espacios';
 import { CERO, parsearImporte, textoEditable, type Centimos } from '../nucleo/dinero';
 import { esFechaISO, hoy, type FechaISO } from '../nucleo/fechas';
 import { formatearEUR } from '../nucleo/formato';
+import { ListaErrores } from '../ui/ListaErrores';
 
 export interface ValoresIniciales {
   sentido: Sentido;
@@ -240,13 +241,7 @@ export function FormularioMovimiento({ espacioId, categorias, inicial = VACIO, c
         </fieldset>
       )}
 
-      {errores.length > 0 && (
-        <ul class="error" role="alert">
-          {errores.map((e) => (
-            <li key={e}>{e}</li>
-          ))}
-        </ul>
-      )}
+      <ListaErrores errores={errores} />
 
       <button class="boton boton--principal" type="submit" disabled={guardando}>
         {guardando ? 'Guardando…' : textoBoton}

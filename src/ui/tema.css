@@ -130,11 +130,11 @@ a {
 .error {
   color: var(--salida);
   margin: 0 0 1rem;
-  padding-left: 1.25rem;
 }
 
-p.error {
-  padding-left: 0;
+.error ul {
+  margin: 0;
+  padding-left: 1.25rem;
 }
 
 /* ---------- Formularios ---------- */

@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import { supabase } from '../datos/cliente';
+import { ListaErrores } from '../ui/ListaErrores';
 import { navegar, RUTA_INICIO } from '../ui/router';
 import { mensajeErrorAuth, problemasContrasena } from './contrasena';
 
@@ -57,13 +58,7 @@ export function CambiarContrasena({ obligatoria }: { obligatoria: boolean }) {
             onInput={(e) => setRepetida(e.currentTarget.value)}
           />
         </label>
-        {errores.length > 0 && (
-          <ul class="error" role="alert">
-            {errores.map((e) => (
-              <li key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
+        <ListaErrores errores={errores} />
         <button class="boton boton--principal" type="submit" disabled={enviando}>
           {enviando ? 'Guardando…' : 'Guardar contraseña'}
         </button>

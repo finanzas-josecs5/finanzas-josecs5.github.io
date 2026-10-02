@@ -2,17 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { anadirMiembro, crearEspacioCompartido, idUsuarioActual, listarMiembros, type Miembro } from '../datos/repos/espacios';
 import { problemasEmail, problemasNombreEspacio, sugerenciasPendientes } from './compartir';
 import { recargarEspacios, useEspacios, type Espacio } from './estado';
-
-function Errores({ errores }: { errores: string[] }) {
-  if (errores.length === 0) return null;
-  return (
-    <ul class="error" role="alert">
-      {errores.map((e) => (
-        <li key={e}>{e}</li>
-      ))}
-    </ul>
-  );
-}
+import { ListaErrores as Errores } from '../ui/ListaErrores';
 
 /** Ajustes → Espacios: crear «Pareja» y «Piso» y añadir a la otra persona por email (SPEC F2). */
 export function AjustesEspacios() {

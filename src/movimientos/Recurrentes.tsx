@@ -13,6 +13,7 @@ import { parsearImporte, textoEditable } from '../nucleo/dinero';
 import { esFechaISO, hoy } from '../nucleo/fechas';
 import { formatearEUR } from '../nucleo/formato';
 import { nombreDia } from '../nucleo/textos';
+import { ListaErrores } from '../ui/ListaErrores';
 import { navegar } from '../ui/router';
 import { useCategorias } from './Nuevo';
 import { describirFrecuencia, proximaOcurrencia, type Frecuencia, type Recurrencia } from './recurrencias';
@@ -261,13 +262,7 @@ function FormularioRecurrente({ espacioId, categorias, inicial, onGuardar, onBor
           <input type="checkbox" checked={fijo} onChange={(e) => setFijo(e.currentTarget.checked)} />
           <span>{sentido === 'salida' ? 'Gasto fijo' : 'Ingreso fijo'}</span>
         </label>
-        {errores.length > 0 && (
-          <ul class="error" role="alert">
-            {errores.map((e) => (
-              <li key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
+        <ListaErrores errores={errores} />
         <button class="boton boton--principal" type="submit">
           Guardar
         </button>
