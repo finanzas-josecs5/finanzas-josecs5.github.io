@@ -376,6 +376,42 @@ code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Gasto compartido: «Pagado por» y «Tu parte» (SPEC §4.6) */
+.reparto {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem 0.25rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.reparto legend {
+  padding: 0 0.25rem;
+  font-weight: 700;
+}
+
+.auditoria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+}
+
+.auditoria dt {
+  display: inline;
+  color: var(--texto-suave);
+}
+
+.auditoria dt::after {
+  content: ': ';
+}
+
+.auditoria dd {
+  display: inline;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- Lista de movimientos ---------- */
 
 .titulo-con-accion {

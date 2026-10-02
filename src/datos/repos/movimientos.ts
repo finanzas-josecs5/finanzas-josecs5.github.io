@@ -1,3 +1,4 @@
+import type { Reparto } from '../../comun/reparto';
 import type { Centimos } from '../../nucleo/dinero';
 import { ultimoDiaDelMes, type ClaveMes, type FechaISO } from '../../nucleo/fechas';
 import { normalizarComercio } from '../../nucleo/normalizar';
@@ -28,6 +29,8 @@ export interface Movimiento {
   origen: 'manual' | 'ocr';
   recurrencia_id: string | null;
   ocurrencia: FechaISO | null;
+  /** Porcentaje de cada miembro en los espacios compartidos; null en «Yo» (migración 007) */
+  reparto: Reparto | null;
   creado_por: string | null;
   actualizado_por: string | null;
 }
@@ -40,10 +43,13 @@ export type DatosMovimiento = Pick<
   // Al confirmar una ocurrencia de un recurrente (SPEC CA4.4)
   recurrencia_id?: string;
   ocurrencia?: FechaISO;
+  // Espacios compartidos (SPEC §4.6): sin reparto, la base de datos aplica el del espacio
+  pagado_por?: string;
+  reparto?: Reparto;
 };
 
 const COLUMNAS =
-  'id, espacio_id, fecha, importe, sentido, categoria_id, naturaleza, concepto, comercio, pagado_por, origen, recurrencia_id, ocurrencia, creado_por, actualizado_por';
+  'id, espacio_id, fecha, importe, sentido, categoria_id, naturaleza, concepto, comercio, pagado_por, origen, recurrencia_id, ocurrencia, reparto, creado_por, actualizado_por';
 
 function fallo(accion: string): never {
   throw new Error(`No se ha podido ${accion}. Comprueba la conexión e inténtalo de nuevo.`);

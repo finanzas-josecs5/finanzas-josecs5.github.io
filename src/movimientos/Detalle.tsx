@@ -6,16 +6,20 @@ import {
   recordarComercio,
   type Movimiento,
 } from '../datos/repos/movimientos';
+import { useEspacios } from '../espacios/estado';
+import { useCompartido } from '../espacios/useCompartido';
 import { navegar } from '../ui/router';
-import { FormularioMovimiento } from './FormularioMovimiento';
+import { FormularioMovimiento, nombreMiembro } from './FormularioMovimiento';
 import { useCategorias } from './Nuevo';
 
-/** Editar o borrar un movimiento (SPEC F4). */
+/** Editar o borrar un movimiento (SPEC F4). En los compartidos, cualquiera de los dos (P1). */
 export function DetalleMovimiento({ id }: { id: string }) {
+  const { espacios } = useEspacios();
   const [movimiento, setMovimiento] = useState<Movimiento | null | undefined>(undefined);
   const [error, setError] = useState('');
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
   const { categorias } = useCategorias(movimiento?.espacio_id);
+  const compartido = useCompartido(movimiento?.espacio_id, espacios.find((e) => e.id === movimiento?.espacio_id)?.tipo);
 
   useEffect(() => {
     obtenerMovimiento(id).then(setMovimiento, (e: Error) => setError(e.message));
@@ -32,7 +36,7 @@ export function DetalleMovimiento({ id }: { id: string }) {
       </section>
     );
   }
-  if (!movimiento || !categorias) return <p class="cargando">Cargando…</p>;
+  if (!movimiento || !categorias || compartido === undefined) return <p class="cargando">Cargando…</p>;
 
   async function borrar() {
     try {
@@ -49,9 +53,23 @@ export function DetalleMovimiento({ id }: { id: string }) {
         <a href="#/movimientos">‹ Movimientos</a>
       </p>
       <h1>Editar movimiento</h1>
+      {compartido && (
+        // SPEC CA6.8: quién lo creó y quién lo modificó (lo fija el servidor, no se puede falsear)
+        <dl class="auditoria" aria-label="Historial">
+          <div>
+            <dt>Creado por</dt>
+            <dd>{nombreMiembro(movimiento.creado_por, compartido.yo, compartido.miembros)}</dd>
+          </div>
+          <div>
+            <dt>Modificado por</dt>
+            <dd>{nombreMiembro(movimiento.actualizado_por, compartido.yo, compartido.miembros)}</dd>
+          </div>
+        </dl>
+      )}
       <FormularioMovimiento
         espacioId={movimiento.espacio_id}
         categorias={categorias}
+        compartido={compartido}
         inicial={{
           sentido: movimiento.sentido,
           importe: movimiento.importe,
@@ -59,6 +77,8 @@ export function DetalleMovimiento({ id }: { id: string }) {
           categoriaId: movimiento.categoria_id,
           fecha: movimiento.fecha,
           fijo: movimiento.naturaleza === 'fijo',
+          pagadoPor: movimiento.pagado_por,
+          reparto: movimiento.reparto,
         }}
         textoBoton="Guardar cambios"
         onGuardar={async (datos) => {

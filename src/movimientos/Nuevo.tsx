@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { crearMovimiento, listarCategorias, recordarComercio, type Categoria } from '../datos/repos/movimientos';
 import { obtenerRecurrencia } from '../datos/repos/recurrencias';
 import { useEspacios } from '../espacios/estado';
+import { useCompartido } from '../espacios/useCompartido';
 import { esFechaISO } from '../nucleo/fechas';
 import { nombreDia } from '../nucleo/textos';
 import { navegar, useRuta } from '../ui/router';
@@ -24,20 +25,23 @@ export function useCategorias(espacioId: string | undefined): { categorias: Cate
  * para ajustar una ocurrencia de un recurrente antes de confirmarla (CA4.4).
  */
 export function NuevoMovimiento() {
-  const { actual } = useEspacios();
+  const { actual, espacios } = useEspacios();
   const { consulta } = useRuta();
   const idRecurrencia = consulta.get('recurrencia');
   const ocurrencia = consulta.get('ocurrencia');
   const [recurrencia, setRecurrencia] = useState<Recurrencia | null | undefined>(idRecurrencia ? undefined : null);
   const espacioId = recurrencia?.espacio_id ?? actual?.id;
   const { categorias, error } = useCategorias(espacioId);
+  const compartido = useCompartido(espacioId, espacios.find((e) => e.id === espacioId)?.tipo);
 
   useEffect(() => {
     if (idRecurrencia) obtenerRecurrencia(idRecurrencia).then(setRecurrencia, () => setRecurrencia(null));
   }, [idRecurrencia]);
 
   if (error) return <p class="error" role="alert">{error}</p>;
-  if (!actual || !espacioId || !categorias || recurrencia === undefined) return <p class="cargando">Cargando…</p>;
+  if (!actual || !espacioId || !categorias || recurrencia === undefined || compartido === undefined) {
+    return <p class="cargando">Cargando…</p>;
+  }
 
   const ajustando = recurrencia && ocurrencia && esFechaISO(ocurrencia) ? { recurrencia, ocurrencia } : null;
   const inicial: ValoresIniciales | undefined = ajustando
@@ -64,6 +68,7 @@ export function NuevoMovimiento() {
         espacioId={espacioId}
         categorias={categorias}
         inicial={inicial}
+        compartido={compartido}
         textoBoton={ajustando ? 'Confirmar' : 'Guardar'}
         onGuardar={async (datos) => {
           await crearMovimiento(
