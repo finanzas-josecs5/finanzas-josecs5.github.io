@@ -37,7 +37,10 @@ test('CA12.1: exportar cifrado, borrar e importar devuelve el mismo estado', asy
   await page.locator('.lista-movimientos').getByRole('link', { name: /Mercadona/ }).click();
   await page.getByRole('button', { name: 'Borrar movimiento' }).click();
   await page.getByRole('button', { name: 'Sí, borrar' }).click();
-  await expect(page.locator('.lista-movimientos').getByRole('link')).toHaveCount(0);
+  // Al terminar de borrar, la app vuelve a la lista: hay que esperarla, o esa navegación llega
+  // después del goto a la copia (en el detalle no hay lista y el recuento 0 pasaría enseguida)
+  await expect(page).toHaveURL(/#\/movimientos$/);
+  await expect(page.getByText('Mercadona')).toHaveCount(0);
 
   // Importar con una contraseña errónea falla; con la buena, restaura
   await page.goto('/#/ajustes/copia');
