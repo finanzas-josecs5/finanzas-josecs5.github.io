@@ -758,10 +758,9 @@ code {
   min-width: 0;
 }
 
+/* Salta de línea en vez de truncar: con el texto al 200 % no se pierde el nombre (RWD5) */
 .movimiento__texto strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Resumen ---------- */
