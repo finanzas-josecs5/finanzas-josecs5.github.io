@@ -43,13 +43,17 @@ test('T19: recordatorios de fondos y liquidez, y valor leído de una captura (CA
   await page.getByLabel('Saldo total (€)').fill('15.000');
   await page.getByRole('button', { name: 'Guardar liquidez' }).click();
   await expect(page.getByRole('status')).toHaveText('Liquidez guardada.');
-  await expect(page.getByRole('region', { name: 'Apuntes' }).or(page.locator('.lista-simple'))).toContainText(`15.000,00${NBSP}€`);
+  await expect(page.getByRole('region', { name: 'Apuntes' })).toContainText(`15.000,00${NBSP}€`);
   await page.goto('/#/resumen');
   await expect(avisos).toContainText('MSCI World');
   await expect(avisos).not.toContainText('liquidez');
 
   // CA8.4: valor leído de una captura (OCR real), con confirmación antes de guardar
-  test.skip(info.project.name === 'tablet-768', 'El OCR es el mismo en todas las anchuras');
+  // El OCR (WebAssembly) satura la CPU del runner: la captura solo se prueba en una anchura
+  if (info.project.name !== 'escritorio-1280') {
+    await sinProblemas(page, problemas);
+    return;
+  }
   await avisos.getByRole('link', { name: /MSCI World/ }).click();
   await page.getByLabel('Leer de captura').setInputFiles('tests/fixtures/captura-broker-sintetica.png');
   await expect(page.getByTestId('lectura-captura')).toContainText(`12.345,67${NBSP}€`, { timeout: 120_000 });

@@ -7,7 +7,8 @@ const NBSP = String.fromCharCode(0xa0);
 
 // T17: gastos desde foto con el motor OCR real, la CSP de producción y Trusted Types (SPEC §4.5)
 test('CA5.5/CA5.6: tres tickets → tarjetas para revisar; nada sale del navegador', async ({ page, problemas }, info) => {
-  test.skip(info.project.name === 'tablet-768', 'El motor es el mismo en todas las anchuras');
+  // El OCR (WebAssembly) satura la CPU del runner: solo en una anchura, que el motor es el mismo
+  test.skip(info.project.name !== 'escritorio-1280', 'El motor es el mismo en todas las anchuras');
   test.setTimeout(180_000);
   const usuario = await crearUsuario();
 
