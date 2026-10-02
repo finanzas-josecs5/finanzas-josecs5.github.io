@@ -376,6 +376,41 @@ code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Saldo de un espacio compartido (SPEC §4.6): texto con verbo, nunca solo color */
+.saldo {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.saldo--te-deben {
+  color: var(--entrada);
+}
+
+.saldo--debes {
+  color: var(--salida);
+}
+
+.subtitulo {
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.lista-simple {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-simple li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--borde);
+}
+
 /* Gasto compartido: «Pagado por» y «Tu parte» (SPEC §4.6) */
 .reparto {
   margin: 0 0 1rem;

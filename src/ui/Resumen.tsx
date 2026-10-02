@@ -6,7 +6,10 @@ import { useEspacios } from '../espacios/estado';
 import type { ConfigNomina } from '../movimientos/nomina';
 import { useCategorias } from '../movimientos/Nuevo';
 import { pendientesDelMes } from '../movimientos/recurrencias';
-import { resumenDelMes, type LineaCategoria, type Vista } from '../movimientos/resumen';
+import { resumenDelMes, type CategoriaBasica, type LineaCategoria, type Vista } from '../movimientos/resumen';
+import type { MovimientoBasico } from '../movimientos/calculos';
+import { categoriaComun, misPartes } from '../comun/miParte';
+import { idUsuarioActual } from '../datos/repos/espacios';
 import { centimos } from '../nucleo/dinero';
 import { claveMes, hoy, sumarMeses, type ClaveMes } from '../nucleo/fechas';
 import { formatearEUR, formatearEURConSigno, formatearPorcentaje } from '../nucleo/formato';
@@ -14,10 +17,14 @@ import { nombreMes } from '../nucleo/textos';
 
 /** Resumen del mes del espacio seleccionado (SPEC §4.4, F3, F7). */
 export function Resumen() {
-  const { actual } = useEspacios();
+  const { actual, espacios } = useEspacios();
   const { categorias } = useCategorias(actual?.id);
   const [mes, setMes] = useState<ClaveMes>(() => claveMes(hoy()));
   const [movimientos, setMovimientos] = useState<Movimiento[] | null>(null);
+  const [comunes, setComunes] = useState<{ movimientos: MovimientoBasico[]; categorias: CategoriaBasica[] }>({
+    movimientos: [],
+    categorias: [],
+  });
   const [nomina, setNomina] = useState<ConfigNomina | null>(null);
   const [vista, setVista] = useState<Vista>('caja');
   const [pendientes, setPendientes] = useState(0);
@@ -40,11 +47,36 @@ export function Resumen() {
     else setNomina(null);
   }, [esIndividual]);
 
+  // En «Yo», mi parte de los gastos comunes de cada espacio compartido (SPEC CA6.3)
+  const compartidos = espacios.filter((e) => e.tipo === 'compartido');
+  const claveCompartidos = compartidos.map((e) => e.id).join(',');
+  useEffect(() => {
+    setComunes({ movimientos: [], categorias: [] });
+    if (!esIndividual || compartidos.length === 0) return;
+    let vigente = true;
+    void (async () => {
+      const yo = await idUsuarioActual();
+      if (!yo) return;
+      const listas = await Promise.all(compartidos.map((e) => listarMovimientosDelMes(e.id, mes)));
+      if (!vigente) return;
+      setComunes({
+        movimientos: compartidos.flatMap((e, i) => misPartes(listas[i] ?? [], yo, e.id)),
+        categorias: compartidos.flatMap((e) => [categoriaComun(e.id, e.nombre, 'salida'), categoriaComun(e.id, e.nombre, 'entrada')]),
+      });
+    })().catch(() => vigente && setComunes({ movimientos: [], categorias: [] }));
+    return () => {
+      vigente = false;
+    };
+  }, [esIndividual, claveCompartidos, mes]);
+
   if (error) return <p class="error" role="alert">{error}</p>;
   if (!actual || !movimientos || !categorias) return <p class="cargando">Cargando…</p>;
 
   const puedeProrratear = esIndividual && nomina?.pagas === 14;
-  const r = resumenDelMes(movimientos, categorias, { vista: puedeProrratear ? vista : 'caja', nomina });
+  const r = resumenDelMes([...movimientos, ...comunes.movimientos], [...categorias, ...comunes.categorias], {
+    vista: puedeProrratear ? vista : 'caja',
+    nomina,
+  });
   const esMesActual = mes === claveMes(hoy());
 
   return (

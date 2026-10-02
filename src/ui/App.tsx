@@ -10,6 +10,8 @@ import { cerrarSesion, debeCambiarContrasena, useSesion } from '../acceso/sesion
 import { Ajustes } from '../ajustes/Ajustes';
 import { AjustesNomina } from '../ajustes/Nomina';
 import { AjustesEspacios } from '../espacios/Espacios';
+import { Comun } from '../comun/Comun';
+import { Saldar } from '../comun/Saldar';
 import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
@@ -32,7 +34,8 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/recurrentes', () => <ListaRecurrentes />],
   ['/recurrentes/nuevo', () => <EditarRecurrente id={null} />],
   ['/recurrentes/:id', (p) => <EditarRecurrente id={p.id ?? null} />],
-  ['/comun', () => <Pendiente titulo="Común" />],
+  ['/comun', () => <Comun />],
+  ['/comun/:espacio/saldar', (p) => <Saldar espacioId={p.espacio ?? ''} />],
   ['/fondos', () => <Pendiente titulo="Fondos" />],
   ['/simulador', () => <Pendiente titulo="Simulador" />],
   ['/ajustes', () => <Ajustes />],
