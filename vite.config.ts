@@ -40,6 +40,7 @@ export default defineConfig(({ mode }) => {
           'src/ocr/extraerValor.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/simulador/{impuestos,simulacion}.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/consejos/reglas.ts': { lines: 90, branches: 85, functions: 90, statements: 90 },
+          'src/copia/{cifrado,formato}.ts': { lines: 90, branches: 85, functions: 90, statements: 90 },
           'src/movimientos/recurrencias.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/nomina.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },
           'src/movimientos/resumen.ts': { lines: 90, branches: 90, functions: 90, statements: 90 },

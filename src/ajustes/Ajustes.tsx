@@ -4,6 +4,7 @@ const APARTADOS = [
   { ruta: '/ajustes/liquidez', texto: 'Liquidez', detalle: 'Saldo de tus cuentas, para los consejos' },
   { ruta: '/ajustes/espacios', texto: 'Espacios', detalle: 'Pareja y Piso: crearlos y compartirlos' },
   { ruta: '/ajustes/preferencias', texto: 'Preferencias', detalle: 'Umbrales de los consejos' },
+  { ruta: '/ajustes/copia', texto: 'Copia de seguridad', detalle: 'Exportar e importar tus datos' },
   { ruta: '/ajustes/seguridad', texto: 'Seguridad', detalle: 'Contraseña y verificación en dos pasos' },
 ];
 

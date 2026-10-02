@@ -20,6 +20,7 @@ import { DesdeFoto } from '../ocr/Foto';
 import { Simulador } from '../simulador/Simulador';
 import { Consejos } from '../consejos/Consejos';
 import { Preferencias } from '../ajustes/Preferencias';
+import { CopiaSeguridad } from '../copia/Copia';
 import { DetalleFondo, EditarFondo, ListaFondos, ValorarFondo } from '../cartera/Fondos';
 import { Layout } from './Layout';
 import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
@@ -49,6 +50,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/simulador', () => <Simulador />],
   ['/consejos', () => <Consejos />],
   ['/ajustes/preferencias', () => <Preferencias />],
+  ['/ajustes/copia', () => <CopiaSeguridad />],
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
   ['/ajustes/nomina', () => <AjustesNomina />],
