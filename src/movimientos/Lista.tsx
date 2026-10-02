@@ -61,7 +61,10 @@ export function ListaMovimientos() {
     <section>
       <div class="titulo-con-accion">
         <h1>Movimientos</h1>
-        <a href="#/recurrentes">Recurrentes</a>
+        <span class="enlaces-titulo">
+          <a href="#/movimientos/foto">Desde foto</a>
+          <a href="#/recurrentes">Recurrentes</a>
+        </span>
       </div>
 
       <nav class="selector-mes" aria-label="Mes">

@@ -376,6 +376,75 @@ code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.enlaces-titulo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+/* Gastos desde foto (SPEC §4.5) */
+.boton-archivo {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: auto;
+  margin-bottom: 1rem;
+}
+
+/* El input sigue siendo operable con teclado; lo que se ve es la etiqueta */
+.boton-archivo input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.boton-archivo:focus-within {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.tarjetas-ocr {
+  display: grid;
+  gap: 1rem;
+}
+
+.tarjeta-ocr {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.tarjeta-ocr--revisar {
+  border-color: var(--aviso-texto);
+  box-shadow: inset 4px 0 0 var(--aviso-texto);
+}
+
+.tarjeta-ocr__miniatura {
+  width: 5rem;
+  max-height: 8rem;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--borde);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.acciones .boton--principal {
+  width: auto;
+}
+
+@media (max-width: 479px) {
+  .tarjeta-ocr {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Saldo de un espacio compartido (SPEC §4.6): texto con verbo, nunca solo color */
 .saldo {
   margin: 0 0 0.75rem;

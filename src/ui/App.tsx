@@ -15,7 +15,7 @@ import { Saldar } from '../comun/Saldar';
 import { Historico } from './Historico';
 import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
-import { LabOcr } from './LabOcr';
+import { DesdeFoto } from '../ocr/Foto';
 import { Layout } from './Layout';
 import { Pendiente } from './Pendiente';
 import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
@@ -30,6 +30,7 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/resumen/historico', () => <Historico />],
   ['/movimientos', () => <ListaMovimientos />],
   ['/movimientos/nuevo', () => <NuevoMovimiento />],
+  ['/movimientos/foto', () => <DesdeFoto />],
   ['/movimientos/:id', (p) => <DetalleMovimiento id={p.id ?? ''} />],
   ['/recurrentes', () => <ListaRecurrentes />],
   ['/recurrentes/nuevo', () => <EditarRecurrente id={null} />],
@@ -53,8 +54,6 @@ function resolverPagina(ruta: string): ComponentChildren | null {
 }
 
 export function App() {
-  const { ruta } = useRuta();
-  if (ruta === '/lab/ocr') return <LabOcr />;
   if (!backendConfigurado) {
     return (
       <main class="acceso">

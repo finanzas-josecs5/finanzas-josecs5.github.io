@@ -63,6 +63,11 @@ export function NuevoMovimiento() {
           ? `Previsto para el ${nombreDia(ajustando.ocurrencia).toLowerCase()}. Cambia lo que haga falta y confirma.`
           : `Espacio: ${actual.nombre}`}
       </p>
+      {!ajustando && (
+        <p>
+          <a href="#/movimientos/foto">¿Tienes el ticket? Léelo de una foto</a>
+        </p>
+      )}
       <FormularioMovimiento
         key={`${espacioId}-${idRecurrencia ?? ''}`}
         espacioId={espacioId}

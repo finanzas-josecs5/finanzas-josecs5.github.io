@@ -16,7 +16,11 @@ function obtenerTrabajador(): Promise<WorkerOcr> {
       langPath: '/ocr/lang',
       gzip: true,
     });
-  })();
+  })().catch((error: unknown) => {
+    // Si falla la descarga (sin conexión), el siguiente intento vuelve a empezar
+    trabajador = undefined;
+    throw error instanceof Error ? error : new Error('No se ha podido cargar el lector de tickets.');
+  });
   return trabajador;
 }
 
