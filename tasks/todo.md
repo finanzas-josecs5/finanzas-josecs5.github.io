@@ -159,9 +159,9 @@ Migración 006: `repartos`, triggers de pertenencia y de suma (*deferred*), y au
 - **Depende de:** T13
 - **Archivos:** `supabase/migrations/006_repartos.sql` (+ test), `src/comun/reparto.ts`, `src/movimientos/Nuevo.tsx`, `tests/unit/reparto.test.ts`
 
-### T15. Saldo y «Saldar»  ·  M
+### T15. Saldo y «Saldar»  ·  M  ✅ (migración 008 en producción el 2026-10-02)
 Migración 007: `liquidaciones`. Página `#/comun` con el saldo por espacio y `#/comun/:espacio/saldar`. En el resumen de «Yo» solo cuenta tu parte de los gastos comunes.
-- [ ] CA6.2, CA6.3 y CA6.4 (test de propiedades con generador propio, sin dependencias nuevas)
+- [x] CA6.2, CA6.3 y CA6.4 (test de propiedades con generador propio, sin dependencias nuevas)
 - **Verificación:** unitarios, pgTAP y e2e
 - **Depende de:** T14 y T11
 - **Archivos:** `supabase/migrations/007_liquidaciones.sql` (+ test), `src/comun/{saldo,liquidaciones}.ts`, `src/comun/{Comun,Saldar}.tsx`, `tests/unit/saldo.test.ts`
