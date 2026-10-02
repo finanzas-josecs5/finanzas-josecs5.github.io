@@ -19,6 +19,7 @@ jobs:
   # Build de PRODUCCIÓN: es exactamente lo que se publica
   build:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -46,6 +47,8 @@ jobs:
   # Integración: Supabase LOCAL y efímero (nunca producción) + RLS (pgTAP) + e2e
   integracion:
     runs-on: ubuntu-24.04
+    # Un paso colgado (p. ej. apt-get al instalar Chromium) no debe bloquear la cola de despliegues
+    timeout-minutes: 25
     permissions:
       contents: read
     steps:
@@ -80,7 +83,9 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build
       - run: npx playwright install --with-deps chromium
+        timeout-minutes: 8
       - run: npm run test:e2e
+        timeout-minutes: 12
       - if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

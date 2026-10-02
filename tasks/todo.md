@@ -174,10 +174,10 @@ Migración 007: `liquidaciones`. Página `#/comun` con el saldo por espacio y `#
 
 ## Fase 5: OCR
 
-### T16. Extracción de datos del texto OCR (función pura)  ·  S
+### T16. Extracción de datos del texto OCR (función pura)  ·  S  ✅
 Función `extraer(texto) → {importe, fecha, comercio, confianza}`.
-- [ ] CA5.1, CA5.2, CA5.3 y CA5.4, con *fixtures* de texto
-- [ ] Cobertura ≥ 90 %
+- [x] CA5.1, CA5.2, CA5.3 y CA5.4, con *fixtures* de texto
+- [x] Cobertura ≥ 90 %
 - **Verificación:** `npm test -- ocr`
 - **Depende de:** T5
 - **Archivos:** `src/ocr/extraer.ts`, `tests/unit/extraer.test.ts`, `tests/fixtures/ocr/*.txt`
