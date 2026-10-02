@@ -213,26 +213,26 @@ Migración 009: `liquidez`. Página `#/ajustes/liquidez`. Recordatorios en el Re
 
 ## Fase 7: Simulador
 
-### T20. Cálculo del simulador (puro)  ·  S
+### T20. Cálculo del simulador (puro)  ·  S  ✅
 `cuenta.ts`, `fondo.ts`, `impuestos.ts` (escala desde `escala-ahorro.json`, marcada **[por verificar]**) y `escenarios.ts`.
-- [ ] Todos los casos de §7.4 de la spec
-- [ ] Cobertura ≥ 90 %
+- [x] Todos los casos de §7.4 de la spec
+- [x] Cobertura ≥ 90 %
 - **Verificación:** `npm test -- simulador`
 - **Depende de:** T5
 - **Archivos:** `src/simulador/{cuenta,fondo,impuestos,escenarios}.ts`, `src/simulador/escala-ahorro.json`, `tests/unit/simulador.test.ts`
 
-### T21. Inflación automática del INE  ·  S
+### T21. Inflación automática del INE  ·  S  ✅
 `scripts/obtener-ipc.mjs` (serie IPC290750, último dato y media de 10 años, validación y respaldo). Paso en el workflow y `schedule` diario a las 07:00 UTC.
-- [ ] CA10.1 con respuestas grabadas, válidas y no válidas
-- [ ] El build en CI genera `dist/datos/ipc.json`
+- [x] CA10.1 con respuestas grabadas, válidas y no válidas
+- [x] El build en CI genera `dist/datos/ipc.json`
 - **Verificación:** unitarios y un run de Actions lanzado a mano
 - **Depende de:** T2 y T20
 - **Archivos:** `scripts/obtener-ipc.mjs`, `src/simulador/ipc-respaldo.json`, `tests/unit/ipc.test.ts`, `tests/fixtures/ine/*.json`, `.github/workflows/deploy.yml`
 
-### T22. Pantalla del simulador  ·  M
+### T22. Pantalla del simulador  ·  M  ✅ (parámetros encima del gráfico en todas las anchuras: con 8 campos, lado a lado quedaba demasiado estrecho)
 `#/simulador`: parámetros, selector de inflación (último dato, media de 10 años o manual, con fuente y fecha), gráfico SVG de líneas (3 escenarios y la cuenta), tabla anual y resumen neto. Los parámetros se guardan en `ajustes`.
-- [ ] CA9.1, CA9.2 y CA10.2
-- [ ] En 1280 px los parámetros y el gráfico aparecen lado a lado; en 375 px, uno encima del otro
+- [x] CA9.1, CA9.2 y CA10.2
+- [x] En 1280 px los parámetros y el gráfico aparecen lado a lado; en 375 px, uno encima del otro
 - **Verificación:** e2e en las tres anchuras
 - **Depende de:** T20, T21 y T11
 - **Archivos:** `src/simulador/Simulador.tsx`, `src/ui/graficos/Lineas.tsx`, `src/simulador/inflacion.ts`, `tests/e2e/simulador.spec.ts`
@@ -241,16 +241,17 @@ Migración 009: `liquidez`. Página `#/ajustes/liquidez`. Recordatorios en el Re
 
 ## Fase 8: Consejos y copia
 
-### T23. Motor de consejos  ·  M
+### T23. Motor de consejos  ·  M  ✅
 Las 9 reglas de §7.6 como funciones puras. Página `#/consejos` y los 2 o 3 consejos principales en el Resumen, cada uno con «¿En qué se basa?». Umbrales editables en `#/ajustes/preferencias`. El consejo de exceso de liquidez enlaza al simulador con la cifra precargada.
-- [ ] CA11.1 (cada regla se dispara o no según el umbral) y CA11.2
+- [x] CA11.1 (cada regla se dispara o no según el umbral) y CA11.2
 - **Verificación:** unitarios y e2e
 - **Depende de:** T11, T15, T18 y T19
 - **Archivos:** `src/consejos/{reglas,motor}.ts`, `src/consejos/Consejos.tsx`, `tests/unit/consejos.test.ts`
 
-### T24. Exportar e importar  ·  M
+### T24. Exportar e importar  ·  M  ✅
 Página `#/ajustes/copia`: JSON de exportación (individual y espacios compartidos), cifrado opcional activado por defecto (AES-GCM con PBKDF2 de 600.000 iteraciones) e importación con confirmación, sin pisar los espacios compartidos que ya existen.
-- [ ] CA12.1, y el descifrado con una contraseña errónea falla
+- [x] CA12.1, y el descifrado con una contraseña errónea falla
+> Importar restaura los datos de «Yo»; los espacios compartidos solo se exportan (no se importan, para no pisar los datos de la otra persona).
 - **Verificación:** unitarios (cifrado) y e2e
 - **Depende de:** T9 a T19
 - **Archivos:** `src/copia/{exportar,importar,cifrado}.ts`, `src/copia/Copia.tsx`, `tests/unit/cifrado.test.ts`
