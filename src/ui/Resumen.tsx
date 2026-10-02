@@ -11,6 +11,7 @@ import type { MovimientoBasico } from '../movimientos/calculos';
 import { categoriaComun, misPartes } from '../comun/miParte';
 import { idUsuarioActual } from '../datos/repos/espacios';
 import { AvisosResumen } from '../cartera/AvisosResumen';
+import { ConsejosDestacados } from '../consejos/Consejos';
 import { centimos } from '../nucleo/dinero';
 import { claveMes, hoy, sumarMeses, type ClaveMes } from '../nucleo/fechas';
 import { formatearEUR, formatearEURConSigno, formatearPorcentaje } from '../nucleo/formato';
@@ -145,6 +146,7 @@ export function Resumen() {
       )}
 
       {esIndividual && <AvisosResumen />}
+      {esIndividual && esMesActual && <ConsejosDestacados />}
 
       {esIndividual && !nomina && (
         <p class="nota">

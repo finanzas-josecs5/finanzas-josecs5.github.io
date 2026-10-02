@@ -18,6 +18,8 @@ import { Resumen } from './Resumen';
 import { backendConfigurado } from '../datos/cliente';
 import { DesdeFoto } from '../ocr/Foto';
 import { Simulador } from '../simulador/Simulador';
+import { Consejos } from '../consejos/Consejos';
+import { Preferencias } from '../ajustes/Preferencias';
 import { DetalleFondo, EditarFondo, ListaFondos, ValorarFondo } from '../cartera/Fondos';
 import { Layout } from './Layout';
 import { coincide, navegar, RUTA_INICIO, useRuta } from './router';
@@ -45,6 +47,8 @@ const PAGINAS: [string, (p: Record<string, string>) => ComponentChildren][] = [
   ['/fondos/:id/editar', (p) => <EditarFondo id={p.id ?? null} />],
   ['/fondos/:id/valorar', (p) => <ValorarFondo id={p.id ?? ''} />],
   ['/simulador', () => <Simulador />],
+  ['/consejos', () => <Consejos />],
+  ['/ajustes/preferencias', () => <Preferencias />],
   ['/ajustes', () => <Ajustes />],
   ['/ajustes/seguridad', () => <Seguridad />],
   ['/ajustes/nomina', () => <AjustesNomina />],

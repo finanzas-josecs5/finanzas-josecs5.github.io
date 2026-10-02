@@ -13,12 +13,13 @@ function fallo(accion: string): never {
 }
 
 /** Todos los movimientos de un espacio compartido, con lo justo para calcular el saldo. */
-export async function movimientosParaSaldo(espacioId: string): Promise<MovimientoComun[]> {
+export async function movimientosParaSaldo(espacioId: string): Promise<(MovimientoComun & { fecha: FechaISO })[]> {
   const { data, error } = await supabase()
     .from('movimientos')
-    .select('importe, sentido, pagado_por, reparto')
+    .select('importe, sentido, pagado_por, reparto, fecha')
     .eq('espacio_id', espacioId)
-    .returns<MovimientoComun[]>();
+    .order('fecha')
+    .returns<(MovimientoComun & { fecha: FechaISO })[]>();
   if (error) fallo('calcular el saldo');
   return data;
 }
