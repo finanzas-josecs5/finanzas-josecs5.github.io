@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "2.117.1",
-    "preact": "10.29.8",
+    "preact": "11.0.1",
     "tesseract.js": "7.0.0"
   },
   "devDependencies": {
